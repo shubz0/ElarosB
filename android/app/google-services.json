@@ -1,0 +1,31 @@
+{
+  "project_info": {
+    "project_number": "425527274727",
+    "project_id": "elaros-d97be",
+    "storage_bucket": "elaros-d97be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425527274727:android:63533902714dbf8a0d0642",
+        "android_client_info": {
+          "package_name": "com.example.elaros"
+        }
+      },
+      "oauth_client": [
+
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlrH9W57G7_yPkbOZxxdJd9q8j069CGus"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
