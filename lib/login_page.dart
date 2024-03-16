@@ -27,72 +27,73 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(
           builder: (context) => HomePage(),
         ),
-      );Navigator.of(context, rootNavigator: true).push(
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+      );
+      Navigator.of(context, rootNavigator: true).push(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } on FirebaseAuthException catch (e) {
-       print(e.code);
-    switch (e.code) {
-      case 'invalid-credential':
-        print("Invalid credentials");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Color.fromARGB(255, 255, 64, 64),
-            content: Text(
-              "Invalid credentials",
-              style: TextStyle(fontSize: 18.0, color: Colors.black),
+      print(e.code);
+      switch (e.code) {
+        case 'invalid-credential':
+          print("Invalid credentials");
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Color.fromARGB(255, 255, 64, 64),
+              content: Text(
+                "Invalid credentials",
+                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              ),
             ),
-          ),
-        );
-        break;
-      case 'invalid-email':
-        print("Invalid Email");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Color.fromARGB(255, 255, 64, 64),
-            content: Text(
-              "Invalid Email",
-              style: TextStyle(fontSize: 18.0, color: Colors.black),
+          );
+          break;
+        case 'invalid-email':
+          print("Invalid Email");
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Color.fromARGB(255, 255, 64, 64),
+              content: Text(
+                "Invalid Email",
+                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              ),
             ),
-          ),
-        );
-        break;
-      case 'wrong-password':
-        print("Wrong Password");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Color.fromARGB(255, 255, 64, 64),
-            content: Text(
-              "Wrong Password",
-              style: TextStyle(fontSize: 18.0, color: Colors.black),
+          );
+          break;
+        case 'wrong-password':
+          print("Wrong Password");
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Color.fromARGB(255, 255, 64, 64),
+              content: Text(
+                "Wrong Password",
+                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              ),
             ),
-          ),
-        );
-        break;
-      case 'user-not-found':
-        print("User not found");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Color.fromARGB(255, 255, 64, 64),
-            content: Text(
-              "User not found",
-              style: TextStyle(fontSize: 18.0, color: Colors.black),
+          );
+          break;
+        case 'user-not-found':
+          print("User not found");
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Color.fromARGB(255, 255, 64, 64),
+              content: Text(
+                "User not found",
+                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              ),
             ),
-          ),
-        );
-        break;
-      case 'user-disabled':
-        print("Your account is disabled");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Color.fromARGB(255, 255, 64, 64),
-            content: Text(
-              "Your account is disabled",
-              style: TextStyle(fontSize: 18.0, color: Colors.black),
+          );
+          break;
+        case 'user-disabled':
+          print("Your account is disabled");
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Color.fromARGB(255, 255, 64, 64),
+              content: Text(
+                "Your account is disabled",
+                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              ),
             ),
-          ),
-        );
-        break;
+          );
+          break;
       }
     }
   }
@@ -121,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: height * 0.5,
                   width: width * 1,
                   decoration: const BoxDecoration(
-                    color: Color(0xffFAAF41),
+                    color: Color.fromARGB(255, 11, 83, 81),
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20.0),
                       bottom: Radius.circular(0.0),
@@ -132,9 +133,19 @@ class _LoginPageState extends State<LoginPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          const SizedBox(height: 20,),
-                          const Text('Login', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w100, color: Color(0xff3C5C6C)),),
-                          const SizedBox(height: 75,),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 75,
+                          ),
                           SizedBox(
                             width: width * 0.65,
                             child: TextFormField(
@@ -149,23 +160,26 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                              filled: true,
-                              fillColor: const Color(0xffFFC571),
-                              border: OutlineInputBorder(
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 255, 255, 255),
+                                border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   borderSide: const BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
+                                    width: 0,
+                                    style: BorderStyle.none,
                                   ),
-                              ),
-                              hintText: 'Email',
-                              contentPadding: const EdgeInsets.only(
-                                left: 20.0, right: 20.0,
-                              ),
+                                ),
+                                hintText: 'Email',
+                                contentPadding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           SizedBox(
                             width: width * 0.65,
                             child: TextFormField(
@@ -178,26 +192,29 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                              filled: true,
-                              fillColor: const Color(0xffFFC571),
-                              border: OutlineInputBorder(
+                                filled: true,
+                                fillColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   borderSide: const BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
+                                    width: 0,
+                                    style: BorderStyle.none,
                                   ),
-                              ),
-                              hintText: 'Password',
-                              contentPadding: const EdgeInsets.only(
-                                left: 20.0, right: 20.0,
-                              ),
+                                ),
+                                hintText: 'Password',
+                                contentPadding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           SizedBox(
                             width: width * 0.65,
-<<<<<<< HEAD
                             child: Wrap(
                               alignment: WrapAlignment.spaceBetween,
                               spacing: 10.0,
@@ -207,30 +224,23 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 120,
                                   height: 45,
                                   child: ElevatedButton(
-=======
-                             height: 45,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: width * 0.3,
-                                  height: 45,
-                                  child: ElevatedButton(
-                                    child: const Text('REGISTER'),
->>>>>>> origin/main
                                     onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).push(
-                                        MaterialPageRoute(builder: (context) => const SignupPage()),
+                                      Navigator.of(context, rootNavigator: true)
+                                          .push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SignupPage()),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xffEC6C20),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 0, 169, 165),
                                       foregroundColor: const Color(0xffffffff),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
-<<<<<<< HEAD
                                     child: const Text('REGISTER'),
                                   ),
                                 ),
@@ -238,15 +248,6 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 110,
                                   height: 45,
                                   child: ElevatedButton(
-=======
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: width * 0.3,
-                                  height: 45,
-                                  child: ElevatedButton(
-                                    child: const Text('LOGIN'),
->>>>>>> origin/main
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         setState(() {
@@ -255,24 +256,17 @@ class _LoginPageState extends State<LoginPage> {
                                         });
                                         userLogin();
                                       }
-<<<<<<< HEAD
-=======
-                                      // Navigator.of(context, rootNavigator: true).push(
-                                      //   MaterialPageRoute(builder: (context) => const HomePage()),
-                                      // );
->>>>>>> origin/main
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xff3C5C6C),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 78, 128, 152),
                                       foregroundColor: const Color(0xffffffff),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
-<<<<<<< HEAD
                                     child: const Text('LOGIN'),
-=======
->>>>>>> origin/main
                                   ),
                                 ),
                               ],
@@ -281,15 +275,11 @@ class _LoginPageState extends State<LoginPage> {
                           Align(
                             alignment: Alignment.topRight,
                             child: Container(
-<<<<<<< HEAD
                               margin: const EdgeInsets.only(top: 60),
-=======
-                              margin: EdgeInsets.only(top: 60),
->>>>>>> origin/main
                               child: Image.asset(
-                                  'assets/images/ellipse.png',
-                                  width: width * 0.7,
-                                ),
+                                'assets/images/ellipse.png',
+                                width: width * 0.7,
+                              ),
                             ),
                           ),
                         ],
@@ -304,5 +294,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 }
