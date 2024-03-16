@@ -51,8 +51,11 @@ class _SignupPageState extends State<SignupPage> {
           username: username,
           address: address,
           gender: gender,
+<<<<<<< HEAD
           bloodgroup: '',
           weight: '',
+=======
+>>>>>>> origin/main
         );
 
         addUserToFirestore(user, FirebaseAuth.instance.currentUser!.uid);
@@ -121,16 +124,28 @@ class _SignupPageState extends State<SignupPage> {
                 width: width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
+<<<<<<< HEAD
                     image: AssetImage("assets/images/reg_logo.png"),
                     fit: BoxFit.cover
                   ),
                 ),
                 height: height * 0.38,
+=======
+                    image: AssetImage("images/reg_logo.png"),
+                    fit: BoxFit.cover
+                  ),
+                ),
+                height: height * 0.4,
+>>>>>>> origin/main
               ),
             ),
             Center(
               child: Container(
+<<<<<<< HEAD
                 height: height * 0.58,
+=======
+                height: height * 0.6,
+>>>>>>> origin/main
                 width: width * 1,
                 child: Form(
                   key: _formKey,
@@ -152,6 +167,7 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
+<<<<<<< HEAD
                               filled: true,
                               fillColor: const Color(0xffFFC571),
                               border: OutlineInputBorder(
@@ -165,6 +181,21 @@ class _SignupPageState extends State<SignupPage> {
                               contentPadding: const EdgeInsets.only(
                                 left: 20.0, right: 20.0,
                               ),
+=======
+                            filled: true,
+                            fillColor: const Color(0xffFFC571),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                    width: 0, 
+                                    style: BorderStyle.none,
+                                ),
+                            ),
+                            hintText: 'Full Name',
+                            contentPadding: const EdgeInsets.only(
+                              left: 20.0, right: 20.0,
+                            ),
+>>>>>>> origin/main
                             ),
                           ),
                         ),
@@ -325,11 +356,20 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         SizedBox(
                           width: width * 0.7,
+<<<<<<< HEAD
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
                             children: [
                               SizedBox(
                                 width: 200,
+=======
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: width * 0.3,
+>>>>>>> origin/main
                                 child: ListTile(
                                 title: const Text('Male'),
                                 leading: Radio(
@@ -345,7 +385,11 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                               ),
                               SizedBox(
+<<<<<<< HEAD
                                 width: 200,
+=======
+                                width: width * 0.35,
+>>>>>>> origin/main
                                 child: ListTile(
                                 title: const Text('Female'),
                                 leading: Radio(
@@ -366,6 +410,10 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(height: 5,),
                         SizedBox(
                           width: width * 0.65,
+<<<<<<< HEAD
+=======
+                           height: 45,
+>>>>>>> origin/main
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -391,6 +439,7 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(height: 10,),
                         SizedBox(
                           width: width * 0.65,
+<<<<<<< HEAD
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
                             spacing: 10.0,
@@ -400,6 +449,17 @@ class _SignupPageState extends State<SignupPage> {
                                 width: 110,
                                 height: 45,
                                 child: ElevatedButton(
+=======
+                           height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: width * 0.3,
+                                height: 45,
+                                child: ElevatedButton(
+                                  child: const Text('LOGIN'),
+>>>>>>> origin/main
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true).push(
                                       MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -412,6 +472,7 @@ class _SignupPageState extends State<SignupPage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
+<<<<<<< HEAD
                                   child: const Text('LOGIN'),
                                 ),
                               ),
@@ -419,6 +480,15 @@ class _SignupPageState extends State<SignupPage> {
                                 width: 120,
                                 height: 45,
                                 child: ElevatedButton(
+=======
+                                ),
+                              ),
+                              SizedBox(
+                                width: width * 0.3,
+                                height: 45,
+                                child: ElevatedButton(
+                                  child: const Text('REGISTER'),
+>>>>>>> origin/main
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       setState(() {
@@ -441,7 +511,10 @@ class _SignupPageState extends State<SignupPage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
+<<<<<<< HEAD
                                   child: const Text('REGISTER'),
+=======
+>>>>>>> origin/main
                                 ),
                               ),
                             ],
