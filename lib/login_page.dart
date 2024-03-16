@@ -197,6 +197,17 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(height: 20,),
                           SizedBox(
                             width: width * 0.65,
+<<<<<<< HEAD
+                            child: Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              spacing: 10.0,
+                              runSpacing: 10.0,
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  height: 45,
+                                  child: ElevatedButton(
+=======
                              height: 45,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,6 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 45,
                                   child: ElevatedButton(
                                     child: const Text('REGISTER'),
+>>>>>>> origin/main
                                     onPressed: () {
                                       Navigator.of(context, rootNavigator: true).push(
                                         MaterialPageRoute(builder: (context) => const SignupPage()),
@@ -218,6 +230,15 @@ class _LoginPageState extends State<LoginPage> {
                                         borderRadius: BorderRadius.circular(10.0),
                                       ),
                                     ),
+<<<<<<< HEAD
+                                    child: const Text('REGISTER'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 110,
+                                  height: 45,
+                                  child: ElevatedButton(
+=======
                                   ),
                                 ),
                                 SizedBox(
@@ -225,6 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 45,
                                   child: ElevatedButton(
                                     child: const Text('LOGIN'),
+>>>>>>> origin/main
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         setState(() {
@@ -233,9 +255,12 @@ class _LoginPageState extends State<LoginPage> {
                                         });
                                         userLogin();
                                       }
+<<<<<<< HEAD
+=======
                                       // Navigator.of(context, rootNavigator: true).push(
                                       //   MaterialPageRoute(builder: (context) => const HomePage()),
                                       // );
+>>>>>>> origin/main
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xff3C5C6C),
@@ -244,6 +269,10 @@ class _LoginPageState extends State<LoginPage> {
                                         borderRadius: BorderRadius.circular(10.0),
                                       ),
                                     ),
+<<<<<<< HEAD
+                                    child: const Text('LOGIN'),
+=======
+>>>>>>> origin/main
                                   ),
                                 ),
                               ],
@@ -252,7 +281,11 @@ class _LoginPageState extends State<LoginPage> {
                           Align(
                             alignment: Alignment.topRight,
                             child: Container(
+<<<<<<< HEAD
+                              margin: const EdgeInsets.only(top: 60),
+=======
                               margin: EdgeInsets.only(top: 60),
+>>>>>>> origin/main
                               child: Image.asset(
                                   'assets/images/ellipse.png',
                                   width: width * 0.7,

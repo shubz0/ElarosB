@@ -45,6 +45,18 @@ class ReusableButton extends StatelessWidget {
         onTap: onTap,
         child: Stack(
           children: [
+<<<<<<< HEAD
+            Container(
+                width: 200,
+                height: 120,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(imageUrl),
+                    fit: BoxFit.cover
+                  ),
+                ),
+              ),
+=======
             SizedBox(
               width: 200,
               height: 120,
@@ -53,6 +65,7 @@ class ReusableButton extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+>>>>>>> origin/main
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
@@ -83,6 +96,21 @@ class MyHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
+      appBar: AppBar(
+        title: const Text(
+          'Health',
+          style: TextStyle(
+            fontSize: 24.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xff3C5C6C),
+      ),
+=======
+>>>>>>> origin/main
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -121,11 +149,25 @@ class MyHealthPage extends StatelessWidget {
               padding: EdgeInsets.all(20.0),
               children: [
                 _buildTestButton(
+<<<<<<< HEAD
+                    context, 'C19 Test', 'assets/images/C19-YRS-logo-500px-PNG.png',
+=======
                     context, 'C19 Test', '/assets/images/C19-YRS-logo-500px-PNG.png',
+>>>>>>> origin/main
                     () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => C19Screen()));
                 }),
+<<<<<<< HEAD
+                _buildTestButton(context, 'Test Results', 'assets/images/export.png',
+                    () {
+                  // Button 2 functionality
+                }),
+                _buildTestButton(context, 'Export', 'assets/images/results.png', () {
+                  // Button 3 functionality
+                }),
+                _buildTestButton(context, 'Button 1', 'assets/images/results.png', () {
+=======
                 _buildTestButton(context, 'Test Results', '/assets/images/export.png',
                     () {
                   // Button 2 functionality
@@ -134,6 +176,7 @@ class MyHealthPage extends StatelessWidget {
                   // Button 3 functionality
                 }),
                 _buildTestButton(context, 'Button 1', '/assets/images/results.png', () {
+>>>>>>> origin/main
                   // Button 4 functionality
                 }),
               ],

@@ -75,7 +75,10 @@ class _HomePageState extends State {
                             ),
                             );
                         } else {
+<<<<<<< HEAD
+=======
                           // Data retrieved successfully
+>>>>>>> origin/main
                           var name = snapshot.data;
                           return Text(
                             'Hi, $name',
@@ -167,6 +170,23 @@ class _HomePageState extends State {
           canvasColor: const Color(0xff3C5C6C),
         ),
         child: BottomNavigationBar(
+<<<<<<< HEAD
+          currentIndex: _selectedTab,
+          onTap: (index) => _changeTab(index),
+          selectedItemColor: const Color(0xffEC6C20),
+          unselectedItemColor: Colors.white,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.support_agent_outlined), label: "Find Support"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.health_and_safety_outlined), label: "My Health"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.medical_services_outlined), label: "Resources"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.chat_rounded), label: "Stats"),
+          ],
+        ),
+=======
         currentIndex: _selectedTab,
         onTap: (index) => _changeTab(index),
         selectedItemColor: const Color(0xffEC6C20),
@@ -182,6 +202,7 @@ class _HomePageState extends State {
               icon: Icon(Icons.chat_rounded), label: "Stats"),
         ],
       ),
+>>>>>>> origin/main
       )
     );
   }

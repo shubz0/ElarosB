@@ -42,14 +42,24 @@ class _StatsPageState extends State<StatsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+<<<<<<< HEAD
+              padding: EdgeInsets.all(16.0),
+=======
               padding: const EdgeInsets.all(16.0),
+>>>>>>> origin/main
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
+<<<<<<< HEAD
+                  colors: [darkBlue, Color.fromARGB(255, 31, 69, 101)],
+                ),
+                borderRadius: BorderRadius.only(
+=======
                   colors: [darkBlue, const Color.fromARGB(255, 31, 69, 101)],
                 ),
                 borderRadius: const BorderRadius.only(
+>>>>>>> origin/main
                   bottomLeft: Radius.circular(25.0),
                   bottomRight: Radius.circular(25.0),
                 ),
@@ -58,19 +68,32 @@ class _StatsPageState extends State<StatsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+<<<<<<< HEAD
+                    'Your\nActivity',
+=======
                     'Total Users',
+>>>>>>> origin/main
                     style: TextStyle(
                       color: white,
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
                     ),
                   ),
+<<<<<<< HEAD
+                  SizedBox(height: 20.0),
+                  _buildDateBoxes(),
+                  SizedBox(height: 20.0),
+                  SizedBox(height: 10.0),
+                  Text(
+                    'Your activity over the last 5 days',
+=======
                   const SizedBox(height: 20.0),
                   _buildDateBoxes(userCount),
                   const SizedBox(height: 20.0),
                   const SizedBox(height: 10.0),
                   Text(
                     'Registererd users on Elaros',
+>>>>>>> origin/main
                     style: TextStyle(
                       color: white,
                       fontWeight: FontWeight.bold,
@@ -105,12 +128,69 @@ class _StatsPageState extends State<StatsPage> {
                 ],
               ),
             ),
+<<<<<<< HEAD
+            const SizedBox(height: 20.0),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [darkBlue, const Color.fromARGB(255, 31, 69, 101)],
+                ),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(25.0),
+                  bottomRight: Radius.circular(25.0),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Total Users',
+                    style: TextStyle(
+                      color: white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  _buildUsersBoxes(userCount),
+                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    'Registererd users on Elaros',
+                    style: TextStyle(
+                      color: white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20.0),
+=======
+>>>>>>> origin/main
           ],
         ),
       ),
     );
   }
 
+<<<<<<< HEAD
+  Widget _buildUsersBoxes(int userCount) {
+    List<Widget> usersBoxe = [];
+    for (int i = 0; i < 1; i++) {
+      usersBoxe.add(_buildUsersBox(userCount, i == 0));
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: usersBoxe,
+    );
+  }
+
+  Widget _buildUsersBox(int totalUsers, bool isSelected) {
+=======
   Widget _buildDateBoxes(int userCount) {
     List<Widget> dateBoxes = [];
     for (int i = 0; i < 1; i++) {
@@ -126,6 +206,7 @@ class _StatsPageState extends State<StatsPage> {
   Widget _buildDateBox(int totalUsers, bool isSelected) {
     // String formattedDate = '${date.day}';
     // String dayOfWeek = _getDayOfWeek(date.weekday);
+>>>>>>> origin/main
     return Container(
       height: 110,
       width: 100.0,
@@ -134,7 +215,11 @@ class _StatsPageState extends State<StatsPage> {
         color: isSelected ? Colors.blue.withOpacity(0.8) : Colors.transparent,
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
+<<<<<<< HEAD
+          color: isSelected ? Colors.blue : Colors.grey,
+=======
           color: isSelected ? Colors.blue : Colors.grey, // Border color
+>>>>>>> origin/main
           width: 1.0,
         ),
         boxShadow: isSelected
@@ -171,6 +256,88 @@ class _StatsPageState extends State<StatsPage> {
     );
   }
 
+<<<<<<< HEAD
+  Widget _buildDateBoxes() {
+    List<Widget> dateBoxes = [];
+    for (int i = 0; i < 3; i++) {
+      DateTime date = DateTime.now().add(Duration(days: i));
+      dateBoxes.add(_buildDateBox(date, i == 0));
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: dateBoxes,
+    );
+  }
+
+  Widget _buildDateBox(DateTime date, bool isSelected) {
+    String formattedDate = '${date.day}';
+    String dayOfWeek = _getDayOfWeek(date.weekday);
+    return Container(
+      height: 110,
+      width: 100.0,
+      padding: EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.blue.withOpacity(0.8) : Colors.transparent,
+        borderRadius: BorderRadius.circular(25.0),
+        border: Border.all(
+          color: isSelected ? Colors.blue : Colors.grey, // Border color
+          width: 1.0,
+        ),
+        boxShadow: isSelected
+            ? [
+                BoxShadow(
+                  color: Colors.blue.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ]
+            : [],
+      ),
+      child: Column(
+        children: [
+          Text(
+            formattedDate,
+            style: TextStyle(
+              color: white,
+              fontSize: 35.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 8.0),
+          Text(
+            dayOfWeek,
+            style: TextStyle(
+              color: white,
+              fontSize: 12.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getDayOfWeek(int day) {
+    switch (day) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return '';
+    }
+  }
+=======
   // String _getDayOfWeek(int day) {
   //   switch (day) {
   //     case 1:
@@ -191,6 +358,7 @@ class _StatsPageState extends State<StatsPage> {
   //       return '';
   //   }
   // }
+>>>>>>> origin/main
 
   Widget _buildCommunityActivityGraph() {
     return Container(
@@ -225,7 +393,10 @@ class _StatsPageState extends State<StatsPage> {
     );
   }
   Widget _buildUserStatsSection() {
+<<<<<<< HEAD
+=======
   // Generate recommended tasks for the next week
+>>>>>>> origin/main
   List<String> recommendedTasks = [
     'Take a COVID-19 test on Monday',
     'Take a COVID-19 test on Wednesday',
