@@ -17,7 +17,17 @@ class ResourcesTab extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xff3C5C6C),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                Color.fromARGB(
+                    255, 11, 83, 81), //health resources title container color
+                Color.fromARGB(255, 0, 169, 165),
+              ])),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -100,7 +110,10 @@ class _CustomButtonState extends State<CustomButton> {
           duration: const Duration(milliseconds: 200),
           height: 65,
           decoration: BoxDecoration(
-            color: _isHovered ? Colors.orangeAccent : Colors.orange,
+            color: _isHovered
+                ? Color.fromARGB(255, 0, 169, 165)
+                    .withOpacity(0.5) //colors for buttons
+                : Color.fromARGB(255, 0, 169, 165),
             borderRadius: BorderRadius.circular(12), // Rounded corners
           ),
           child: Center(

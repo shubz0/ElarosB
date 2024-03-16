@@ -45,17 +45,15 @@ class _SignupPageState extends State<SignupPage> {
   registration() async {
     if (password == confirmPassword) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
         UserModel user = UserModel(
           name: name,
           username: username,
           address: address,
           gender: gender,
-<<<<<<< HEAD
           bloodgroup: '',
           weight: '',
-=======
->>>>>>> origin/main
         );
 
         addUserToFirestore(user, FirebaseAuth.instance.currentUser!.uid);
@@ -116,7 +114,7 @@ class _SignupPageState extends State<SignupPage> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFAAF41),
+        backgroundColor: const Color.fromARGB(255, 0, 169, 165),
         body: Column(
           children: [
             Center(
@@ -124,37 +122,34 @@ class _SignupPageState extends State<SignupPage> {
                 width: width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-<<<<<<< HEAD
-                    image: AssetImage("assets/images/reg_logo.png"),
-                    fit: BoxFit.cover
-                  ),
+                      image: AssetImage("assets/images/reg_logo.png"),
+                      fit: BoxFit.cover),
                 ),
                 height: height * 0.38,
-=======
-                    image: AssetImage("images/reg_logo.png"),
-                    fit: BoxFit.cover
-                  ),
-                ),
-                height: height * 0.4,
->>>>>>> origin/main
               ),
             ),
             Center(
               child: Container(
-<<<<<<< HEAD
                 height: height * 0.58,
-=======
-                height: height * 0.6,
->>>>>>> origin/main
                 width: width * 1,
                 child: Form(
                   key: _formKey,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const SizedBox(height: 20,),
-                        const Text('Signup', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w100, color: Color(0xff3C5C6C)),),
-                        const SizedBox(height: 30,),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          'Signup',
+                          style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
                         SizedBox(
                           width: width * 0.65,
                           child: TextFormField(
@@ -167,39 +162,27 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
-<<<<<<< HEAD
                               filled: true,
-                              fillColor: const Color(0xffFFC571),
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                      width: 0, 
-                                      style: BorderStyle.none,
-                                  ),
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
                               ),
                               hintText: 'Full Name',
                               contentPadding: const EdgeInsets.only(
-                                left: 20.0, right: 20.0,
+                                left: 20.0,
+                                right: 20.0,
                               ),
-=======
-                            filled: true,
-                            fillColor: const Color(0xffFFC571),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                    width: 0, 
-                                    style: BorderStyle.none,
-                                ),
-                            ),
-                            hintText: 'Full Name',
-                            contentPadding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0,
-                            ),
->>>>>>> origin/main
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: width * 0.65,
                           child: TextFormField(
@@ -212,23 +195,27 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xffFFC571),
-                            border: OutlineInputBorder(
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: const BorderSide(
-                                    width: 0, 
-                                    style: BorderStyle.none,
+                                  width: 0,
+                                  style: BorderStyle.none,
                                 ),
-                            ),
-                            hintText: 'Username',
-                            contentPadding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0,
-                            ),
+                              ),
+                              hintText: 'Username',
+                              contentPadding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: width * 0.65,
                           child: TextFormField(
@@ -243,23 +230,27 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xffFFC571),
-                            border: OutlineInputBorder(
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: const BorderSide(
-                                    width: 0, 
-                                    style: BorderStyle.none,
+                                  width: 0,
+                                  style: BorderStyle.none,
                                 ),
-                            ),
-                            hintText: 'Email',
-                            contentPadding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0,
-                            ),
+                              ),
+                              hintText: 'Email',
+                              contentPadding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: width * 0.65,
                           child: TextFormField(
@@ -272,23 +263,27 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xffFFC571),
-                            border: OutlineInputBorder(
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: const BorderSide(
-                                    width: 0, 
-                                    style: BorderStyle.none,
+                                  width: 0,
+                                  style: BorderStyle.none,
                                 ),
-                            ),
-                            hintText: 'Password',
-                            contentPadding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0,
-                            ),
+                              ),
+                              hintText: 'Password',
+                              contentPadding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: width * 0.65,
                           child: TextFormField(
@@ -304,23 +299,27 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xffFFC571),
-                            border: OutlineInputBorder(
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: const BorderSide(
-                                    width: 0, 
-                                    style: BorderStyle.none,
+                                  width: 0,
+                                  style: BorderStyle.none,
                                 ),
-                            ),
-                            hintText: 'Confirm Password',
-                            contentPadding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0,
-                            ),
+                              ),
+                              hintText: 'Confirm Password',
+                              contentPadding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: width * 0.65,
                           child: TextFormField(
@@ -333,87 +332,94 @@ class _SignupPageState extends State<SignupPage> {
                               return null;
                             },
                             decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xffFFC571),
-                            border: OutlineInputBorder(
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: const BorderSide(
-                                    width: 0, 
-                                    style: BorderStyle.none,
+                                  width: 0,
+                                  style: BorderStyle.none,
                                 ),
-                            ),
-                            hintText: 'Address',
-                            contentPadding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0,
-                            ),
+                              ),
+                              hintText: 'Address',
+                              contentPadding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SizedBox(
                           width: width * 0.62,
-                          child: const Text('Gender: '),
+                          child: const Text(
+                            'Gender: ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: width * 0.7,
-<<<<<<< HEAD
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
                             children: [
                               SizedBox(
                                 width: 200,
-=======
-                          height: 45,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: width * 0.3,
->>>>>>> origin/main
                                 child: ListTile(
-                                title: const Text('Male'),
-                                leading: Radio(
-                                  value: 'male',
-                                  groupValue: gender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gender = value!;
-                                      genderController.text = 'male';
-                                    });
-                                  },
+                                  title: const Text(
+                                    'Male',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  leading: Radio(
+                                    value: 'male',
+                                    groupValue: gender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gender = value!;
+                                        genderController.text = 'male';
+                                      });
+                                    },
+                                    activeColor: Colors.white,
+                                  ),
                                 ),
                               ),
-                              ),
                               SizedBox(
-<<<<<<< HEAD
                                 width: 200,
-=======
-                                width: width * 0.35,
->>>>>>> origin/main
                                 child: ListTile(
-                                title: const Text('Female'),
-                                leading: Radio(
-                                  value: 'female',
-                                  groupValue: gender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gender = value!;
-                                      genderController.text = 'female';
-                                    });
-                                  },
+                                  title: const Text(
+                                    'Female',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  leading: Radio(
+                                    value: 'female',
+                                    groupValue: gender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gender = value!;
+                                        genderController.text = 'female';
+                                      });
+                                    },
+                                    activeColor: Colors.white,
+                                  ),
                                 ),
-                              ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 5,),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         SizedBox(
                           width: width * 0.65,
-<<<<<<< HEAD
-=======
-                           height: 45,
->>>>>>> origin/main
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -431,15 +437,22 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                               SizedBox(
                                 width: width * 0.57,
-                                child: const Text('I accept the terms and conditions.'),
+                                child: const Text(
+                                  'I Accept the\nTerms & Conditions',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         SizedBox(
                           width: width * 0.65,
-<<<<<<< HEAD
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
                             spacing: 10.0,
@@ -449,30 +462,22 @@ class _SignupPageState extends State<SignupPage> {
                                 width: 110,
                                 height: 45,
                                 child: ElevatedButton(
-=======
-                           height: 45,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: width * 0.3,
-                                height: 45,
-                                child: ElevatedButton(
-                                  child: const Text('LOGIN'),
->>>>>>> origin/main
                                   onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).push(
-                                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage()),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xffEC6C20),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 11, 83, 81),
                                     foregroundColor: const Color(0xffffffff),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
-<<<<<<< HEAD
                                   child: const Text('LOGIN'),
                                 ),
                               ),
@@ -480,15 +485,6 @@ class _SignupPageState extends State<SignupPage> {
                                 width: 120,
                                 height: 45,
                                 child: ElevatedButton(
-=======
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * 0.3,
-                                height: 45,
-                                child: ElevatedButton(
-                                  child: const Text('REGISTER'),
->>>>>>> origin/main
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       setState(() {
@@ -511,10 +507,7 @@ class _SignupPageState extends State<SignupPage> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
-<<<<<<< HEAD
                                   child: const Text('REGISTER'),
-=======
->>>>>>> origin/main
                                 ),
                               ),
                             ],
@@ -525,9 +518,9 @@ class _SignupPageState extends State<SignupPage> {
                           child: Container(
                             margin: EdgeInsets.only(top: 30),
                             child: Image.asset(
-                                'assets/images/ellipse.png',
-                                width: width * 0.7,
-                              ),
+                              'assets/images/ellipse.png',
+                              width: width * 0.7,
+                            ),
                           ),
                         ),
                       ],
@@ -541,5 +534,4 @@ class _SignupPageState extends State<SignupPage> {
       ),
     );
   }
-
 }

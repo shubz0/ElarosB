@@ -17,11 +17,12 @@ class _FindSupportPageState extends State<FindSupportPage> {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff3C5C6C),
-                  Color(0xff3C5C6C),
+                  Color.fromARGB(255, 11, 83,
+                      81), //find support page title container color
+                  Color.fromARGB(255, 0, 169, 165),
                 ],
               ),
             ),
@@ -45,7 +46,8 @@ class _FindSupportPageState extends State<FindSupportPage> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff3C5C6C),
+                  Color.fromARGB(
+                      255, 144, 194, 231), //background color of the whole page
                   Colors.white,
                 ],
               ),
@@ -91,7 +93,7 @@ class _FindSupportPageState extends State<FindSupportPage> {
                   ),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color(0xff3C5C6C)), //search btn color
+                          Color.fromARGB(255, 11, 83, 81)), //search btn color
                       foregroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
                         if (states.contains(MaterialState.pressed))
@@ -139,13 +141,21 @@ class _FindSupportPageState extends State<FindSupportPage> {
                 Divider(
                   height: 20,
                   thickness: 4,
-                  color: Color(0xff3C5C6C),
+                  color: Color.fromARGB(255, 11, 83, 81),
                 ), //divider between search results and contact us
 
                 Container(
                   //contact us container
                   padding: EdgeInsets.all(10),
-                  color: Color(0xff3C5C6C),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Color.fromARGB(255, 11, 83, 81),
+                        Color.fromARGB(255, 0, 169, 165)
+                      ])),
+                  //      color: Color(0xff3C5C6C),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
