@@ -19,14 +19,16 @@ class ResourcesTab extends StatelessWidget {
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
                 Color.fromARGB(
                     255, 11, 83, 81), //health resources title container color
                 Color.fromARGB(255, 0, 169, 165),
-              ])),
+              ],
+            ),
+          ),
         ),
       ),
       body: Padding(
