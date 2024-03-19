@@ -1,3 +1,5 @@
+import 'package:elaros/C19/C19Export.dart';
+import 'package:elaros/C19/C19TestResults.dart';
 import 'package:flutter/material.dart';
 import 'package:elaros/C19/C19.dart';
 
@@ -149,11 +151,13 @@ class MyHealthPage extends StatelessWidget {
                 }),
                 _buildTestButton(
                     context, 'Test Results', 'assets/images/export.png', () {
-                  // Button 2 functionality
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => C19TestResults()));
                 }),
                 _buildTestButton(context, 'Export', 'assets/images/results.png',
                     () {
-                  // Button 3 functionality
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => C19Export()));
                 }),
                 _buildTestButton(
                     context, 'Button 1', 'assets/images/results.png', () {
