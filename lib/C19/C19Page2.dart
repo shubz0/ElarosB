@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:elaros/C19/C19Page3.dart';
+import 'package:elaros/C19/c19_user_responses.dart'; // Import the user responses class
 
 class C19Page2 extends StatefulWidget {
+  final C19UserResponses userResponses; // Declare userResponses variable
+
+  C19Page2({required this.userResponses}); // Constructor
+
   @override
   _C19Page2State createState() => _C19Page2State();
 }
 
 class _C19Page2State extends State<C19Page2> {
-  double _fatigueLevels = 0;
-  double _chestPain = 0;
-  double _jointPain = 0;
-  double _musclePain = 0;
-  double _headache = 0;
-  double _abdominalPain = 0;
-
-  double _communicationDifficulty = 0;
-  double _walkingMovingAroundDifficulty = 0;
-  double _personalCareDifficulty = 0;
-  double _personalTasksDifficulty = 0;
-  double _widerActivitiesDifficulty = 0;
-  double _socializingDifficulty = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,12 +38,12 @@ class _C19Page2State extends State<C19Page2> {
             SizedBox(height: 20.0),
             Center(
               child: SizedBox(
-                width: 400, 
+                width: 400,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => C19Page3()),
+                      MaterialPageRoute(builder: (context) => C19Page3(userResponses: widget.userResponses)),
                     );
                   },
                   child: Text('Next'),
@@ -114,34 +105,34 @@ class _C19Page2State extends State<C19Page2> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('Fatigue levels in your usual activities', _fatigueLevels, (value) {
+        _buildSubQuestion('Fatigue levels in your usual activities', widget.userResponses.fatigueLevels, (value) {
           setState(() {
-            _fatigueLevels = value;
+            widget.userResponses.fatigueLevels = value;
           });
         }),
-        _buildSubQuestion('Chest pain', _chestPain, (value) {
+        _buildSubQuestion('Chest pain', widget.userResponses.chestPain, (value) {
           setState(() {
-            _chestPain = value;
+            widget.userResponses.chestPain = value;
           });
         }),
-        _buildSubQuestion('Joint pain', _jointPain, (value) {
+        _buildSubQuestion('Joint pain', widget.userResponses.jointPain, (value) {
           setState(() {
-            _jointPain = value;
+            widget.userResponses.jointPain = value;
           });
         }),
-        _buildSubQuestion('Muscle pain', _musclePain, (value) {
+        _buildSubQuestion('Muscle pain', widget.userResponses.musclePain, (value) {
           setState(() {
-            _musclePain = value;
+            widget.userResponses.musclePain = value;
           });
         }),
-        _buildSubQuestion('Headache', _headache, (value) {
+        _buildSubQuestion('Headache', widget.userResponses.headache, (value) {
           setState(() {
-            _headache = value;
+            widget.userResponses.headache = value;
           });
         }),
-        _buildSubQuestion('Abdominal pain', _abdominalPain, (value) {
+        _buildSubQuestion('Abdominal pain', widget.userResponses.abdominalPain, (value) {
           setState(() {
-            _abdominalPain = value;
+            widget.userResponses.abdominalPain = value;
           });
         }),
       ],
@@ -152,37 +143,42 @@ class _C19Page2State extends State<C19Page2> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-       _buildSubQuestion('Difficulty with communication', _communicationDifficulty, (value) {
+        _buildSubQuestion('Difficulty with communication', widget.userResponses.communicationDifficulty, (value) {
           setState(() {
-            _communicationDifficulty = value;
+            widget.userResponses.communicationDifficulty = value;
           });
         }),
-        _buildSubQuestion('Walking or moving around', _walkingMovingAroundDifficulty, (value) {
+        _buildSubQuestion('Walking or moving around', widget.userResponses.walkingMovingAroundDifficulty, (value) {
           setState(() {
-            _walkingMovingAroundDifficulty = value;
+            widget.userResponses.walkingMovingAroundDifficulty = value;
           });
         }),
-        _buildSubQuestion('Personal Care', _personalCareDifficulty, (value) {
+        _buildSubQuestion('Personal Care', widget.userResponses.personalCareDifficulty, (value) {
           setState(() {
-            _personalCareDifficulty = value;
+            widget.userResponses.personalCareDifficulty = value;
           });
         }),
-        _buildSubQuestion('Difficulties with personal tasks', _personalTasksDifficulty, (value) {
+        _buildSubQuestion('Difficulties with personal tasks', widget.userResponses.personalTasksDifficulty, (value) {
           setState(() {
-            _personalTasksDifficulty = value;
+            widget.userResponses.personalTasksDifficulty = value;
           });
         }),
-        _buildSubQuestion('Difficulty doing wider activities', _widerActivitiesDifficulty, (value) {
+        _buildSubQuestion('Difficulty doing wider activities', widget.userResponses.widerActivitiesDifficulty, (value) {
           setState(() {
-            _widerActivitiesDifficulty = value;
+            widget.userResponses.widerActivitiesDifficulty = value;
           });
         }),
-        _buildSubQuestion('Problems with socialising/interacting with friends', _socializingDifficulty, (value) {
+        _buildSubQuestion('Problems with socialising/interacting with friends', widget.userResponses.socializingDifficulty, (value) {
           setState(() {
-            _socializingDifficulty = value;
+            widget.userResponses.socializingDifficulty = value;
           });
         }),
       ],
     );
+  }
+
+  // Method to save user responses to Firestore via the user responses object
+  void saveResponsesToUser() {
+    widget.userResponses.saveResponsesToFirestore(context);
   }
 }

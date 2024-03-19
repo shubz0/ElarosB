@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:elaros/C19/C19Page4.dart';
+import 'package:elaros/C19/c19_user_responses.dart'; // Import the user responses class
 
 class C19Page3 extends StatefulWidget {
+  final C19UserResponses userResponses; // Declare userResponses variable
+
+  C19Page3({required this.userResponses}); // Constructor
+
   @override
   _C19Page3State createState() => _C19Page3State();
 }
 
 class _C19Page3State extends State<C19Page3> {
-  List<String> selectedSymptoms = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,43 +41,43 @@ class _C19Page3State extends State<C19Page3> {
                     ),
                   ),
                   SizedBox(height: 10.0),
-                  _buildSymptomCheckbox('Fever'),
-                  _buildSymptomCheckbox('Skin rash/ discolouration of skin'),
-                  _buildSymptomCheckbox('New allergy such as medication, food etc'),
-                  _buildSymptomCheckbox('Hair loss'),
-                  _buildSymptomCheckbox('Skin sensation (numbness/tingling/itching/nerve pain)'),
-                  _buildSymptomCheckbox('Dry eyes/ redness of eyes'),
-                  _buildSymptomCheckbox('Swelling of feet/ swelling of hands'),
-                  _buildSymptomCheckbox('Easy bruising/ bleeding'),
-                  _buildSymptomCheckbox('Visual changes'),
-                  _buildSymptomCheckbox('Difficulty swallowing solids'),
-                  _buildSymptomCheckbox('Difficulty swallowing liquids'),
-                  _buildSymptomCheckbox('Balance problems or falls'),
-                  _buildSymptomCheckbox('Weakness/movement problems/coordination problems'),
-                  _buildSymptomCheckbox('Tinnitus'),
-                  _buildSymptomCheckbox('Nausea'),
-                  _buildSymptomCheckbox('Dry mouth/mouth ulcers'),
-                  _buildSymptomCheckbox('Acid Reflux/heartburn'),
-                  _buildSymptomCheckbox('Change in appetite'),
-                  _buildSymptomCheckbox('Unintentional weight loss'),
-                  _buildSymptomCheckbox('Unintentional weight gain'),
-                  _buildSymptomCheckbox('Bladder frequency, urgency or incontinence'),
-                  _buildSymptomCheckbox('Constipation, diarrhoea or bowel incontinence'),
-                  _buildSymptomCheckbox('Change in menstrual cycles or flow'),
-                  _buildSymptomCheckbox('Waking up at night gasping for air (also called sleep apnea)'),
-                  _buildSymptomCheckbox('Thoughts about harming yourself'),
+                  _buildSymptomCheckbox('Fever', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Skin rash/ discolouration of skin', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('New allergy such as medication, food etc', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Hair loss', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Skin sensation (numbness/tingling/itching/nerve pain)', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Dry eyes/ redness of eyes', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Swelling of feet/ swelling of hands', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Easy bruising/ bleeding', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Visual changes', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Difficulty swallowing solids', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Difficulty swallowing liquids', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Balance problems or falls', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Weakness/movement problems/coordination problems', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Tinnitus', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Nausea', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Dry mouth/mouth ulcers', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Acid Reflux/heartburn', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Change in appetite', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Unintentional weight loss', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Unintentional weight gain', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Bladder frequency, urgency or incontinence', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Constipation, diarrhoea or bowel incontinence', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Change in menstrual cycles or flow', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Waking up at night gasping for air (also called sleep apnea)', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Thoughts about harming yourself', widget.userResponses.selectedSymptoms),
                 ],
               ),
             ),
             SizedBox(height: 20.0),
             Center(
               child: SizedBox(
-                width: 400, 
+                width: 400,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => C19Page4()),
+                      MaterialPageRoute(builder: (context) => C19Page4(userResponses: widget.userResponses)),
                     );
                   },
                   child: Text('Next'),
@@ -87,7 +90,7 @@ class _C19Page3State extends State<C19Page3> {
     );
   }
 
-  Widget _buildSymptomCheckbox(String symptom) {
+  Widget _buildSymptomCheckbox(String symptom, List<String> selectedSymptoms) {
     return Row(
       children: [
         Checkbox(
@@ -105,5 +108,11 @@ class _C19Page3State extends State<C19Page3> {
         Text(symptom),
       ],
     );
+  }
+
+  // Method to save user symptoms to Firestore via the user responses object
+  void saveSymptomsToUser() {
+    widget.userResponses.selectedSymptoms = widget.userResponses.selectedSymptoms; // Copy selected symptoms
+    widget.userResponses.saveResponsesToFirestore(context); // Save responses
   }
 }

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:elaros/health_page.dart';
+import 'package:elaros/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elaros/C19/c19_user_responses.dart'; // Import the user responses class
 
 class C19Page4 extends StatefulWidget {
+  final C19UserResponses userResponses; // Declare userResponses variable
+
+  C19Page4({required this.userResponses}); // Constructor
+
   @override
   _C19Page4State createState() => _C19Page4State();
 }
 
 class _C19Page4State extends State<C19Page4> {
-  double nowHealth = 5;
-  double preCovidHealth = 5;
-
-  String occupation = '';
-  List<String> affectedWork = [];
-  String otherComments = '';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,16 +48,16 @@ class _C19Page4State extends State<C19Page4> {
                   ),
                   SizedBox(height: 10.0),
                   Slider(
-                    value: nowHealth,
+                    value: widget.userResponses.nowHealth,
                     onChanged: (value) {
                       setState(() {
-                        nowHealth = value;
+                        widget.userResponses.nowHealth = value;
                       });
                     },
                     min: 0,
                     max: 10,
                     divisions: 10,
-                    label: nowHealth.round().toString(),
+                    label: widget.userResponses.nowHealth.round().toString(),
                   ),
                   SizedBox(height: 20.0),
                   Text(
@@ -69,16 +69,17 @@ class _C19Page4State extends State<C19Page4> {
                   ),
                   SizedBox(height: 10.0),
                   Slider(
-                    value: preCovidHealth,
+                    value: widget.userResponses.preCovidHealth,
                     onChanged: (value) {
                       setState(() {
-                        preCovidHealth = value;
+                        widget.userResponses.preCovidHealth = value;
                       });
                     },
                     min: 0,
                     max: 10,
                     divisions: 10,
-                    label: preCovidHealth.round().toString(),
+                    label:
+                        widget.userResponses.preCovidHealth.round().toString(),
                   ),
                 ],
               ),
@@ -107,7 +108,7 @@ class _C19Page4State extends State<C19Page4> {
                   TextField(
                     onChanged: (value) {
                       setState(() {
-                        occupation = value;
+                        widget.userResponses.occupation = value;
                       });
                     },
                     decoration: InputDecoration(
@@ -132,7 +133,7 @@ class _C19Page4State extends State<C19Page4> {
                   TextField(
                     onChanged: (value) {
                       setState(() {
-                        otherComments = value;
+                        widget.userResponses.otherComments = value;
                       });
                     },
                     decoration: InputDecoration(
@@ -149,9 +150,16 @@ class _C19Page4State extends State<C19Page4> {
                 width: 400,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    // Save user responses before navigating to the next page
+                    saveDataToFirestore();
+                    // Navigate back to the home page
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => MyHealthPage()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage()), 
+                      (Route<dynamic> route) =>
+                          false, // Remove all routes below the home page
                     );
                   },
                   child: Text('Submit'),
@@ -168,13 +176,13 @@ class _C19Page4State extends State<C19Page4> {
     return Row(
       children: [
         Checkbox(
-          value: affectedWork.contains(option),
+          value: widget.userResponses.affectedWork.contains(option),
           onChanged: (value) {
             setState(() {
               if (value != null && value) {
-                affectedWork.add(option);
+                widget.userResponses.affectedWork.add(option);
               } else {
-                affectedWork.remove(option);
+                widget.userResponses.affectedWork.remove(option);
               }
             });
           },
@@ -182,5 +190,11 @@ class _C19Page4State extends State<C19Page4> {
         Text(option),
       ],
     );
+  }
+
+  // Method to save user responses to Firestore
+  void saveDataToFirestore() {
+    widget.userResponses
+        .saveResponsesToFirestore(context); // Call the method to save responses
   }
 }

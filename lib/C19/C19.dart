@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:elaros/C19/C19Page2.dart';
+import 'package:elaros/C19/c19_user_responses.dart';
 
 class C19Screen extends StatefulWidget {
-  const C19Screen({super.key});
+  const C19Screen({Key? key}) : super(key: key);
 
   @override
   _C19ScreenState createState() => _C19ScreenState();
 }
 
 class _C19ScreenState extends State<C19Screen> {
-  double _breathlessnessAtRest = 0;
-  double _breathlessnessChangingPosition = 0;
-  double _breathlessnessOnDressing = 0;
-  double _breathlessnessWalkingUpStairs = 0;
-
-  double _throatSensitivity = 0;
-  double _changeOfVoice = 0;
-  double _alteredSmell = 0;
-  double _alteredTaste = 0;
+  C19UserResponses userResponses = C19UserResponses();
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +38,13 @@ class _C19ScreenState extends State<C19Screen> {
             SizedBox(height: 20.0),
             Center(
               child: SizedBox(
-                width: 400, 
+                width: 400,
                 child: ElevatedButton(
                   onPressed: () {
+                    // Navigate to the next page and pass userResponses object
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => C19Page2()),
+                      MaterialPageRoute(builder: (context) => C19Page2(userResponses: userResponses)),
                     );
                   },
                   child: Text('Next'),
@@ -112,24 +106,24 @@ class _C19ScreenState extends State<C19Screen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('At rest', _breathlessnessAtRest, (value) {
+        _buildSubQuestion('At rest', userResponses.breathlessnessAtRest, (value) {
           setState(() {
-            _breathlessnessAtRest = value;
+            userResponses.breathlessnessAtRest = value;
           });
         }),
-        _buildSubQuestion('Changing position', _breathlessnessChangingPosition, (value) {
+        _buildSubQuestion('Changing position', userResponses.breathlessnessChangingPosition, (value) {
           setState(() {
-            _breathlessnessChangingPosition = value;
+            userResponses.breathlessnessChangingPosition = value;
           });
         }),
-        _buildSubQuestion('On dressing', _breathlessnessOnDressing, (value) {
+        _buildSubQuestion('On dressing', userResponses.breathlessnessOnDressing, (value) {
           setState(() {
-            _breathlessnessOnDressing = value;
+            userResponses.breathlessnessOnDressing = value;
           });
         }),
-        _buildSubQuestion('Walking up stairs', _breathlessnessWalkingUpStairs, (value) {
+        _buildSubQuestion('Walking up stairs', userResponses.breathlessnessWalkingUpStairs, (value) {
           setState(() {
-            _breathlessnessWalkingUpStairs = value;
+            userResponses.breathlessnessWalkingUpStairs = value;
           });
         }),
       ],
@@ -140,24 +134,24 @@ class _C19ScreenState extends State<C19Screen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('Throat sensitivity', _throatSensitivity, (value) {
+        _buildSubQuestion('Throat sensitivity', userResponses.throatSensitivity, (value) {
           setState(() {
-            _throatSensitivity = value;
+            userResponses.throatSensitivity = value;
           });
         }),
-        _buildSubQuestion('Change of voice', _changeOfVoice, (value) {
+        _buildSubQuestion('Change of voice', userResponses.changeOfVoice, (value) {
           setState(() {
-            _changeOfVoice = value;
+            userResponses.changeOfVoice = value;
           });
         }),
-        _buildSubQuestion('Altered smell', _alteredSmell, (value) {
+        _buildSubQuestion('Altered smell', userResponses.alteredSmell, (value) {
           setState(() {
-            _alteredSmell = value;
+            userResponses.alteredSmell = value;
           });
         }),
-        _buildSubQuestion('Altered taste', _alteredTaste, (value) {
+        _buildSubQuestion('Altered taste', userResponses.alteredTaste, (value) {
           setState(() {
-            _alteredTaste = value;
+            userResponses.alteredTaste = value;
           });
         }),
       ],
