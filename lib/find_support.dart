@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'models/LocationModel.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -32,9 +33,12 @@ class _FindSupportPageState extends State<FindSupportPage> {
   final TextEditingController _controller = TextEditingController();
   List<Location> _sortedLocations = [];
 
+  int? _selectedIndex;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: Container(
@@ -63,150 +67,181 @@ class _FindSupportPageState extends State<FindSupportPage> {
             ),
           ),
         ),
-        body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromARGB(
-                      255, 144, 194, 231), //background color of the whole page
-                  Colors.white,
-                ],
-              ),
+        body: SingleChildScrollView(
+            child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromARGB(
+                    255, 144, 194, 231), //background color of the whole page
+                Colors.white,
+              ],
             ),
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    "We're here to Support you in All Ways Possible. We can Locate the nearest Clinic to you for an In Person Assessment. Start by entering your Postcode.",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      labelText: "Enter Your Postcode",
-                      labelStyle: TextStyle(
+          ),
+          child: Column(children: [
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      "We're here to Support you in All Ways Possible. We can Locate the nearest Clinic to you for an In Person Assessment. Start by entering your Postcode.",
+                      style: TextStyle(
+                        fontSize: 15,
                         color: Colors.white,
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 2.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 2.0),
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  ElevatedButton(
-                    onPressed: _searchLocations,
-                    child: Text(
-                      "Search",
-                      style: TextStyle(fontSize: 15),
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        labelText: "Enter Your Postcode",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                      ),
                     ),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 11, 83, 81)), //search btn color
-                        foregroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.pressed))
-                            return Color(
-                                0xff3C5C6C); //color of text on btn press
-                          return Colors.white; //default color of text in btn
-                        })),
-                  ),
-                  SizedBox(height: 5), //padding below the search btn
-                  Expanded(
-                      child: Container(
-                          //container for search results
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 215, 213, 213),
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: _sortedLocations.isEmpty
-                              ? Center(
-                                  child: Text(
-                                    'Your nearest clinics will be displayed here',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                )
-                              : ListView.builder(
-                                  itemCount: _sortedLocations.length,
-                                  itemBuilder: (context, index) {
-                                    final location = _sortedLocations[index];
-                                    return ListTile(
-                                      title: Text(
-                                        location.name,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      subtitle: Text(
-                                        "Distance: ${location.distance.toStringAsFixed(2)} miles",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    );
-                                  },
-                                ))),
+                    SizedBox(height: 5),
+                    ElevatedButton(
+                      onPressed: _searchLocations,
+                      child: Text(
+                        "Search",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color.fromARGB(
+                                  255, 11, 83, 81)), //search btn color
+                          foregroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed))
+                              return Color(
+                                  0xff3C5C6C); //color of text on btn press
+                            return Colors.white; //default color of text in btn
+                          })),
+                    ),
+                    SizedBox(height: 5), //padding below the search btn
 
-                  Divider(
-                    height: 20,
-                    thickness: 4,
-                    color: Color.fromARGB(255, 11, 83, 81),
-                  ),
-                  Container(
-                    //contact us container
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                          Color.fromARGB(255, 11, 83, 81),
-                          Color.fromARGB(255, 0, 169, 165)
-                        ])),
-                    //      color: Color(0xff3C5C6C),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Contact Us',
+                    Container(
+                        constraints: BoxConstraints(minHeight: 200),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            border: Border.all(color: Colors.black)),
+                        child: _sortedLocations.isEmpty
+                            ? Center(
+                                child: Text(
+                                  'Your nearest clinics will be displayed here',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: _sortedLocations.length,
+                                itemBuilder: (context, index) {
+                                  final location = _sortedLocations[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedIndex = index;
+                                        _launchMapsUrl(location.latitude,
+                                            location.longitude);
+                                      });
+                                      Future.delayed(
+                                          Duration(milliseconds: 500), () {
+                                        setState(() {
+                                          _selectedIndex = null;
+                                        });
+                                      });
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 200),
+                                      color: _selectedIndex == index
+                                          ? Colors.grey[300]
+                                          : Colors.transparent,
+                                      child: ListTile(
+                                        title: Text(location.name,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                        subtitle: Text(
+                                          "Distance: ${location.distance.toStringAsFixed(2)} miles",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )),
+
+                    Divider(
+                        height: 20,
+                        thickness: 4,
+                        color: Color.fromARGB(255, 11, 83, 81)),
+                    Container(
+                      //contact us container
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                            Color.fromARGB(255, 11, 83, 81),
+                            Color.fromARGB(255, 0, 169, 165)
+                          ])),
+                      //      color: Color(0xff3C5C6C),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Contact Us',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              )),
+                          SizedBox(height: 10),
+                          Text(
+                            'Email: contact@example.com',
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                               color: Colors.white,
-                            )),
-                        SizedBox(height: 10),
-                        Text(
-                          'Email: contact@example.com',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Phone: +123 456 789',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
+                          Text(
+                            'Phone: +123 456 789',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ])));
+                        ],
+                      ),
+                    )
+                  ]),
+            )
+          ]),
+        )));
   }
 
   void _searchLocations() async {
@@ -298,6 +333,17 @@ class _FindSupportPageState extends State<FindSupportPage> {
       print('Coordinates: $coordinates');
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  Future<void> _launchMapsUrl(double lat, double lng) async {
+    final Uri url = Uri.parse(
+        'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      print('Could not launch $url');
+      throw 'Could not launch $url';
     }
   }
 }
