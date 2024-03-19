@@ -4,6 +4,7 @@ import 'models/LocationModel.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 
 class FindSupportPage extends StatefulWidget {
   @override
@@ -34,6 +35,40 @@ class _FindSupportPageState extends State<FindSupportPage> {
   List<Location> _sortedLocations = [];
 
   int? _selectedIndex;
+
+  final postcodeRegExp = RegExp(
+    r'^(([A-Z]{1,2}\d{0,2})|([A-Z]{1,2}\d{0,2}[A-Z]?)|([A-Z]{1,2}\d{0,2}[A-Z]?\s?\d{0,1}[A-Z]{0,2}))$',
+    caseSensitive: false,
+  );
+
+  void showSuccessMessage() {
+    final snackBar = SnackBar(
+      content: Text('Success! Press a Clinic name for Directions'),
+      duration: Duration(seconds: 4),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void noLocationsFoundMessage() {
+    final snackBar = SnackBar(
+      content: Text('No Locations Found'),
+      duration: Duration(seconds: 3),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showEmptyTextFieldMessage() {
+    final snackBar = SnackBar(
+      content: Text('Enter a Valid Postcode'),
+      duration: Duration(seconds: 3),
+      backgroundColor: Colors.orange,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  String _helperText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -97,26 +132,43 @@ class _FindSupportPageState extends State<FindSupportPage> {
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        labelText: "Enter Your Postcode",
-                        labelStyle: TextStyle(
-                          color: Colors.white,
+                        controller: _controller,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          labelText: "Enter Your Postcode",
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 2.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 2.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 2.0),
+                          ),
+                          helperText: _helperText,
+                          helperStyle: TextStyle(color: Colors.grey),
                         ),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                      ),
-                    ),
+                        onChanged: (value) {
+                          setState(() {
+                            if (value.isNotEmpty &&
+                                RegExp(r'^\d').hasMatch(value)) {
+                              _helperText =
+                                  'Postcode Cannot Start with a number';
+                            } else if (!postcodeRegExp.hasMatch(value) &&
+                                value.isNotEmpty) {
+                              _helperText =
+                                  'Invalid Format! Must be AA12 3AA or AA123AA';
+                            } else {
+                              _helperText = '';
+                            }
+                          });
+                        }),
                     SizedBox(height: 5),
                     ElevatedButton(
                       onPressed: _searchLocations,
@@ -137,7 +189,7 @@ class _FindSupportPageState extends State<FindSupportPage> {
                             return Colors.white; //default color of text in btn
                           })),
                     ),
-                    SizedBox(height: 5), //padding below the search btn
+                    SizedBox(height: 20), //padding below the search btn
 
                     Container(
                         constraints: BoxConstraints(minHeight: 200),
@@ -210,7 +262,6 @@ class _FindSupportPageState extends State<FindSupportPage> {
                             Color.fromARGB(255, 11, 83, 81),
                             Color.fromARGB(255, 0, 169, 165)
                           ])),
-                      //      color: Color(0xff3C5C6C),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -248,14 +299,14 @@ class _FindSupportPageState extends State<FindSupportPage> {
     final String postcode = _controller.text.trim();
 
     if (postcode.isEmpty) {
-      print("error");
+      showEmptyTextFieldMessage();
       return;
     }
 
     try {
       final userCoords = await geocodePostcode(
           postcode, 'AIzaSyD7_jakGIgJ7hGIq-OTiHpXoK_QYcb0m_I');
-      List<Location> locations = await fetchLocations();
+      final List<Location> locations = await fetchLocations();
 
       print("Fetched ${locations.length} locations");
 
@@ -278,14 +329,15 @@ class _FindSupportPageState extends State<FindSupportPage> {
 
       locations.sort((a, b) => a.distance.compareTo(b.distance));
       setState(() {
-        //  _sortedLocations = [
-        //    Location(
-        //        name: "Test 1", latitude: 0.0, longitude: 0.0, distance: 1.0),
-        //    Location(
-        //        name: "Test 2", latitude: 0.0, longitude: 0.0, distance: 1.0),
-        //  ];
         _sortedLocations = locations;
       });
+
+      if (locations.isNotEmpty) {
+        showSuccessMessage();
+      } else {
+        noLocationsFoundMessage();
+        return;
+      }
     } catch (e) {
       print("Error Processing Search: $e");
     }
