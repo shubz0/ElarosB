@@ -49,3 +49,14 @@ void addUserToFirestore(UserModel user, uid) {
     print('Failed to add user to Firestore: $error');
   });
 }
+
+void updateUserprofile(UserModel user, uid) {
+  FirebaseFirestore.instance
+      .collection('users').doc(uid)
+      .update(user.toMap())
+      .then((value) {
+    print('User profile Updated to Firestore!');
+  }).catchError((error) {
+    print('Failed to update user to Firestore: $error');
+  });
+}
