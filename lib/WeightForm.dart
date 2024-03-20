@@ -23,9 +23,9 @@ class _WeightFormState extends State<WeightForm> {
     updateWeightToFirebase(user, FirebaseAuth.instance.currentUser!.uid);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        backgroundColor: Color.fromARGB(255, 50, 255, 142),
+        backgroundColor: Colors.green,
         content: Text(
-          "Weight updated",
+          "Weight Updated",
           style: TextStyle(fontSize: 20.0, color: Colors.black),
         ),
       ),
@@ -58,7 +58,9 @@ class _WeightFormState extends State<WeightForm> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const SizedBox(height: 50,),
+                const SizedBox(
+                  height: 50,
+                ),
                 TextFormField(
                   obscureText: false,
                   controller: weightController,
@@ -75,11 +77,14 @@ class _WeightFormState extends State<WeightForm> {
                     ),
                     hintText: 'Weight in Kg',
                     contentPadding: const EdgeInsets.only(
-                      left: 20.0, right: 20.0,
+                      left: 20.0,
+                      right: 20.0,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

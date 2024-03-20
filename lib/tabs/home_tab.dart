@@ -95,43 +95,22 @@ class _HomeTabState extends State<HomeTab> {
           child: Column(
             children: [
               Container(
-                width: width * 0.9,
-                height: 130,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(0xffDEF4FF),
-                ),
-                child: Center(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                            padding:
-                                const EdgeInsets.only(left: 40.0, top: 20.0),
-                            child: Column(
-                              children: [
-                                const Text(
-                                  "Steps Count",
-                                  style: TextStyle(fontSize: 14.0),
-                                ),
-                                Text(
-                                  _steps,
-                                  style: const TextStyle(
-                                      fontSize: 44.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(35.0),
-                          child: Image.asset(
-                            "assets/images/steps_count.png",
-                            width: width * 0.2,
-                          ),
-                        ),
-                      ]),
-                ),
-              ),
+                  width: width * 0.9,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(0xffDEF4FF),
+                  ),
+                  child: Center(
+                      child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            "Welcome to Your very own Occupational Health app here to help you monitor your symptoms of Long Covid. In addition to helping with Long Covid symptoms, below you can find various other solutions provided by Us\n\nKind Regards,\nThe Elaros Team",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          )))),
               const SizedBox(
                 height: 20,
               ),
@@ -254,7 +233,7 @@ class _HomeTabState extends State<HomeTab> {
                                     padding:
                                         EdgeInsets.only(top: 23.0, left: 3.0),
                                     child: Text(
-                                      "kg",
+                                      "KG",
                                       style: TextStyle(
                                           fontSize: 10.0,
                                           fontWeight: FontWeight.bold),
@@ -277,57 +256,6 @@ class _HomeTabState extends State<HomeTab> {
               ]),
               const SizedBox(
                 height: 20,
-              ),
-              Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(0xffF5F5F5),
-                ),
-                child: Center(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.only(left: 40.0, top: 15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Activities",
-                                  style: TextStyle(fontSize: 14.0),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "0/4",
-                                      style: TextStyle(
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 16.0, left: 5.0),
-                                      child: Text(
-                                        "completed",
-                                        style: TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Image.asset(
-                            "assets/images/activities.png",
-                            width: width * 0.12,
-                          ),
-                        ),
-                      ]),
-                ),
               ),
               const SizedBox(
                 height: 20,
@@ -788,8 +716,9 @@ class _HomeTabState extends State<HomeTab> {
                         padding:
                             EdgeInsets.only(top: 10.0, left: 25.0, right: 25.0),
                         child: Text(
-                          "In an Emergency, it's important that first responders have up-to-date information.",
+                          "Feel like your Long Covid Symptoms are getting Better or Worse?\nTake an Assessment to ensure regular monitoring of your Health",
                           style: TextStyle(fontSize: 14.0),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       const SizedBox(
@@ -797,7 +726,7 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                       SizedBox(
                         width: width * 0.8,
-                        height: 45,
+                        height: 40,
                         child: ElevatedButton(
                           child: const Text('Update'),
                           onPressed: () {

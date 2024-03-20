@@ -13,9 +13,18 @@ class BloodGroupForm extends StatefulWidget {
 class _BloodGroupFormState extends State<BloodGroupForm> {
   final _formKey = GlobalKey<FormState>();
   String bloodGroup = '-';
-  var selected="-";
+  var selected = "-";
   final bloogGroupController = TextEditingController();
-  List<String> bloodGroupsList = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  List<String> bloodGroupsList = [
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-'
+  ];
 
   updateBloodGroup() async {
     bloodGroupModel user = bloodGroupModel(
@@ -27,7 +36,7 @@ class _BloodGroupFormState extends State<BloodGroupForm> {
       const SnackBar(
         backgroundColor: Color.fromARGB(255, 50, 255, 142),
         content: Text(
-          "Weight updated",
+          "Blood Type Updated",
           style: TextStyle(fontSize: 20.0, color: Colors.black),
         ),
       ),
@@ -55,7 +64,9 @@ class _BloodGroupFormState extends State<BloodGroupForm> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 50,),
+          const SizedBox(
+            height: 50,
+          ),
           Form(
             key: _formKey,
             child: Column(
@@ -75,7 +86,9 @@ class _BloodGroupFormState extends State<BloodGroupForm> {
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
