@@ -943,8 +943,9 @@ class _HomeTabState extends State<HomeTab> {
                         height: 20,
                       ),
                       Image.asset(
-                        "assets/images/logo.png",
+                        "assets/images/logoelaros.png",
                         width: width * 0.2,
+                        // height: 10,
                       ),
                       const SizedBox(
                         height: 10,

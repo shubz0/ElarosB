@@ -113,23 +113,22 @@ class _SignupPageState extends State<SignupPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 0, 169, 165),
-        body: Column(
-          children: [
-            Center(
-              child: Container(
-                width: width,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/reg_logo.png"),
-                      fit: BoxFit.cover),
+        child: Scaffold(
+            backgroundColor: const Color.fromARGB(255, 0, 169, 165),
+            body: Column(children: [
+              Center(
+                child: Container(
+                  width: width,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/reg_logo.png"),
+                        fit: BoxFit.cover),
+                  ),
+                  height: height * 0.38,
                 ),
-                height: height * 0.38,
               ),
-            ),
-            Center(
-              child: Container(
+              Center(
+                  child: Container(
                 height: height * 0.58,
                 width: width * 1,
                 child: Form(
@@ -363,175 +362,192 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: width * 0.7,
-                          child: Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 200,
-                                child: ListTile(
-                                  title: const Text(
-                                    'Male',
-                                    style: TextStyle(
-                                      color: Colors.white,
+                        Column(
+                          children: [
+                            Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: ListTile(
+                                    title: const Text(
+                                      'Male',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    leading: Radio(
+                                      value: 'male',
+                                      groupValue: gender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          gender = value!;
+                                          genderController.text = 'male';
+                                        });
+                                      },
+                                      activeColor: Colors.white,
                                     ),
                                   ),
-                                  leading: Radio(
-                                    value: 'male',
-                                    groupValue: gender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        gender = value!;
-                                        genderController.text = 'male';
-                                      });
-                                    },
-                                    activeColor: Colors.white,
-                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 200,
-                                child: ListTile(
-                                  title: const Text(
-                                    'Female',
-                                    style: TextStyle(
-                                      color: Colors.white,
+                                SizedBox(
+                                  width: 200,
+                                  child: ListTile(
+                                    title: const Text(
+                                      'Female',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    leading: Radio(
+                                      value: 'female',
+                                      groupValue: gender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          gender = value!;
+                                          genderController.text = 'female';
+                                        });
+                                      },
+                                      activeColor: Colors.white,
                                     ),
                                   ),
-                                  leading: Radio(
-                                    value: 'female',
-                                    groupValue: gender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        gender = value!;
-                                        genderController.text = 'female';
-                                      });
-                                    },
-                                    activeColor: Colors.white,
-                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        SizedBox(
-                          width: width * 0.65,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: width * 0.08,
-                                child: Checkbox(
-                                  checkColor: Colors.white,
-                                  value: isChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isChecked = value!;
-                                    });
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * 0.57,
-                                child: const Text(
-                                  'I Accept the\nTerms & Conditions',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: width * 0.65,
-                          child: Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            spacing: 10.0,
-                            runSpacing: 10.0,
-                            children: [
-                              SizedBox(
-                                width: 110,
-                                height: 45,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage()),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 11, 83, 81),
-                                    foregroundColor: const Color(0xffffffff),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                  child: const Text('LOGIN'),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 120,
-                                height: 45,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        email = emailController.text;
-                                        password = passwordController.text;
-                                        confirmPassword =
-                                            confirmPasswordController.text;
-                                        name = nameController.text;
-                                        username = usernameController.text;
-                                        address = addressController.text;
-                                        gender = genderController.text;
-                                      });
-                                      registration();
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xff3C5C6C),
-                                    foregroundColor: const Color(0xffffffff),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                  child: const Text('REGISTER'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 30),
-                            child: Image.asset(
-                              'assets/images/ellipse.png',
-                              width: width * 0.7,
+                              ],
                             ),
-                          ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            SizedBox(
+                              width: width * 0.477,
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    checkColor: Colors.white,
+                                    value: isChecked,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isChecked = value!;
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: const Text(
+                                      'I Accept the\nTerms & Conditions',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: width * 0.80,
+                              child: Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                spacing: 10.0,
+                                runSpacing: 10.0,
+                                children: [
+                                  SizedBox(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 110,
+                                          height: 45,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const LoginPage()),
+                                              );
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      255, 11, 83, 81),
+                                              foregroundColor:
+                                                  const Color(0xffffffff),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            child: const Text('LOGIN'),
+                                          ),
+                                        ),
+                                        SizedBox(width: 20),
+                                        SizedBox(
+                                          width: 120,
+                                          height: 45,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                setState(() {
+                                                  email = emailController.text;
+                                                  password =
+                                                      passwordController.text;
+                                                  confirmPassword =
+                                                      confirmPasswordController
+                                                          .text;
+                                                  name = nameController.text;
+                                                  username =
+                                                      usernameController.text;
+                                                  address =
+                                                      addressController.text;
+                                                  gender =
+                                                      genderController.text;
+                                                });
+                                                registration();
+                                              }
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color(0xff3C5C6C),
+                                              foregroundColor:
+                                                  const Color(0xffffffff),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            child: const Text('REGISTER'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: FractionallySizedBox(
+                                      widthFactor: 1.3,
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 30),
+                                        child: Image.asset(
+                                          'assets/images/ellipse.png',
+                                          width: width * 0.7,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+              ))
+            ])));
   }
 }
