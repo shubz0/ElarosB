@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pdf/widgets.dart' as pdfWidgets;
+import 'package:path_provider/path_provider.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'dart:io';
 
 class C19Export extends StatefulWidget {
   @override
@@ -54,6 +59,73 @@ class _C19ExportState extends State<C19Export> {
     }
   }
 
+  Future<void> generateAndSendPdf(
+      Map<String, dynamic> user, Map<String, dynamic> results) async {
+    try {
+      // Create a new PDF document
+      final pdf = pdfWidgets.Document();
+
+      // Add user information to the PDF
+      pdf.addPage(
+        pdfWidgets.Page(
+          build: (context) {
+            return pdfWidgets.Column(
+              crossAxisAlignment: pdfWidgets.CrossAxisAlignment.start,
+              children: [
+                pdfWidgets.Text('User Information',
+                    style: pdfWidgets.TextStyle(
+                        fontWeight: pdfWidgets.FontWeight.bold)),
+                pdfWidgets.Text('Name: ${user['name'] ?? 'N/A'}'),
+                pdfWidgets.Text('Email: ${results['userEmail'] ?? 'N/A'}'),
+                pdfWidgets.Text(
+                    'Occupation: ${results['occupation'] ?? 'N/A'}'),
+                pdfWidgets.Divider(), // Add a line separator
+                pdfWidgets.SizedBox(
+                    height:
+                        20), // Add some space between user information and test results
+                pdfWidgets.Text('Test Results',
+                    style: pdfWidgets.TextStyle(
+                        fontWeight: pdfWidgets.FontWeight.bold)),
+                // Add each test result here
+              ],
+            );
+          },
+        ),
+      );
+
+      // Generate PDF bytes
+      final pdfBytes = await pdf.save();
+
+      // Save PDF bytes to a temporary file
+      final tempDir = await getTemporaryDirectory();
+      final tempFilePath = '${tempDir.path}/test_results.pdf';
+      final tempFile = File(tempFilePath);
+      await tempFile.writeAsBytes(pdfBytes);
+
+      // Send email with the PDF attached
+      final smtpServer = SmtpServer('smtp.office365.com',
+          username: 'Elarosteamb@outlook.com', password: 'BlueMonster786',
+          port: 587, // Port for TLS (Transport Layer Security) encryption
+          ssl: false, // Use TLS instead of SSL (Secure Sockets Layer)
+          allowInsecure: false,
+          ignoreBadCertificate: true);
+
+      final message = Message()
+        ..from = Address('Elarosteamb@outlook.com', 'Elaros') // Your Outlook email address and optional display name
+        ..recipients.add('cameronbrazendale1@gmail.com') // Recipient's email address
+        ..subject = 'Test Results'
+        ..text = 'Please find the attached test results PDF.'
+        ..attachments.add(FileAttachment(tempFile));
+
+      // Send the email
+      await send(message, smtpServer);
+
+      print('Email sent successfully!');
+    } catch (e, stackTrace) {
+      print('Error sending email: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +134,8 @@ class _C19ExportState extends State<C19Export> {
       ),
       body: FutureBuilder(
         future: Future.wait([testResults, userData]),
-        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        builder: (context, AsyncSnapshot
+<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else {
@@ -127,18 +200,16 @@ class _C19ExportState extends State<C19Export> {
                         results['widerActivitiesDifficulty']),
                     _buildTestResult('Socializing Difficulty',
                         results['socializingDifficulty']),
-                    _buildTestResult('Selected Symptoms',
+                    Result('Selected Symptoms',
                         results['selectedSymptoms']?.join(', ') ?? 'N/A'),
-                    _buildTestResult('Now Health', results['nowHealth']),
-                    _buildTestResult(
-                        'Pre-COVID Health', results['preCovidHealth']),
-                    _buildTestResult(
-                        'Other Comments', results['otherComments']),
+                    Result('Now Health', results['nowHealth']),
+                    Result('Pre-COVID Health', results['preCovidHealth']),
+                    Result('Other Comments', results['otherComments']),
                     SizedBox(height: 16),
                     // Export button
                     ElevatedButton(
-                      onPressed: () {
-                        // Add code to export PDF here
+                      onPressed: () async {
+                        await generateAndSendPdf(user, results);
                       },
                       child: Text('Export PDF'),
                     ),
@@ -156,13 +227,47 @@ class _C19ExportState extends State<C19Export> {
     return Row(
       children: [
         Expanded(
+          flex: 3,
           child: Text(
             label,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         Text(
-          '     -     ',
+          '-',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          flex: 2,
+          child: Text(
+            value != null ? value.toString() : 'N/A',
+            textAlign: TextAlign.left,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Result extends StatelessWidget {
+  final String label;
+  final dynamic value;
+
+  const Result(this.label, this.value);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Text(
+            label,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        Text(
+          '-',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Expanded(
