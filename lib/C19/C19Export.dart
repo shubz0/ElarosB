@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 class C19Export extends StatefulWidget {
   @override
@@ -65,10 +66,74 @@ class _C19ExportState extends State<C19Export> {
       // Create a new PDF document
       final pdf = pdfWidgets.Document();
 
-      // Add user information to the PDF
+      // Define a map that maps variable names to display names
+      final Map<String, String> displayNameMap = {
+        'breathlessnessAtRest': 'Breathlessness at Rest',
+        'breathlessnessChangingPosition': 'Breathlessness Changing Position',
+        'breathlessnessOnDressing': 'Breathlessness on Dressing',
+        'breathlessnessWalkingUpStairs': 'Breathlessness Walking Up Stairs',
+        'throatSensitivity': 'Throat Sensitivity',
+        'changeOfVoice': 'Change of Voice',
+        'alteredSmell': 'Altered Smell',
+        'alteredTaste': 'Altered Taste',
+        'fatigueLevels': 'Fatigue Levels',
+        'chestPain': 'Chest Pain',
+        'jointPain': 'Joint Pain',
+        'musclePain': 'Muscle Pain',
+        'headache': 'Headache',
+        'abdominalPain': 'Abdominal Pain',
+        'communicationDifficulty': 'Communication Difficulty',
+        'walkingMovingAroundDifficulty': 'Walking/Moving Around Difficulty',
+        'personalCareDifficulty': 'Personal Care Difficulty',
+        'personalTasksDifficulty': 'Personal Tasks Difficulty',
+        'widerActivitiesDifficulty': 'Wider Activities Difficulty',
+        'socializingDifficulty': 'Socializing Difficulty',
+        'selectedSymptoms': 'Selected Symptoms',
+        'nowHealth': 'Now Health',
+        'preCovidHealth': 'Pre-COVID Health',
+        'otherComments': 'Other Comments',
+      };
+
+// Define the order of the test results as per the UI
+      final List<String> testResultOrder = [
+        'breathlessnessAtRest',
+        'breathlessnessChangingPosition',
+        'breathlessnessOnDressing',
+        'breathlessnessWalkingUpStairs',
+        'throatSensitivity',
+        'changeOfVoice',
+        'alteredSmell',
+        'alteredTaste',
+        'fatigueLevels',
+        'chestPain',
+        'jointPain',
+        'musclePain',
+        'headache',
+        'abdominalPain',
+        'communicationDifficulty',
+        'walkingMovingAroundDifficulty',
+        'personalCareDifficulty',
+        'personalTasksDifficulty',
+        'widerActivitiesDifficulty',
+        'socializingDifficulty',
+        'selectedSymptoms',
+        'nowHealth',
+        'preCovidHealth',
+        'otherComments',
+      ];
+
+// Add user information to the PDF
       pdf.addPage(
         pdfWidgets.Page(
           build: (context) {
+            // Convert the timestamp to a DateTime object
+            DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+                results['dateTime'].seconds * 1000);
+
+            // Format the DateTime object into a readable string
+            String formattedDateTime =
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+
             return pdfWidgets.Column(
               crossAxisAlignment: pdfWidgets.CrossAxisAlignment.start,
               children: [
@@ -86,7 +151,38 @@ class _C19ExportState extends State<C19Export> {
                 pdfWidgets.Text('Test Results',
                     style: pdfWidgets.TextStyle(
                         fontWeight: pdfWidgets.FontWeight.bold)),
-                // Add each test result here
+                // Add each test result in the correct order
+                for (String key in testResultOrder)
+                  if (results.containsKey(key))
+                    pdfWidgets.Row(
+                      children: [
+                        pdfWidgets.Expanded(
+                          flex: 3,
+                          child: pdfWidgets.Text(
+                            displayNameMap[key] ?? key,
+                            // Use display name if available, otherwise use variable name
+                            style: pdfWidgets.TextStyle(
+                                fontWeight: pdfWidgets.FontWeight.bold),
+                          ),
+                        ),
+                        pdfWidgets.Text(
+                          '-  ',
+                          style: pdfWidgets.TextStyle(
+                              fontWeight: pdfWidgets.FontWeight.bold),
+                        ),
+                        pdfWidgets.Expanded(
+                          flex: 2,
+                          child: pdfWidgets.Text(
+                            key == 'dateTime'
+                                ? formattedDateTime
+                                : (results[key] != null
+                                    ? results[key].toString()
+                                    : 'N/A'),
+                            textAlign: pdfWidgets.TextAlign.left,
+                          ),
+                        ),
+                      ],
+                    ),
               ],
             );
           },
@@ -104,15 +200,18 @@ class _C19ExportState extends State<C19Export> {
 
       // Send email with the PDF attached
       final smtpServer = SmtpServer('smtp.office365.com',
-          username: 'Elarosteamb@outlook.com', password: 'BlueMonster786',
+          username: 'Elarosteamb@outlook.com',
+          password: 'BlueMonster786',
           port: 587, // Port for TLS (Transport Layer Security) encryption
           ssl: false, // Use TLS instead of SSL (Secure Sockets Layer)
           allowInsecure: false,
           ignoreBadCertificate: true);
 
       final message = Message()
-        ..from = Address('Elarosteamb@outlook.com', 'Elaros') // Your Outlook email address and optional display name
-        ..recipients.add('cameronbrazendale1@gmail.com') // Recipient's email address
+        ..from = Address('Elarosteamb@outlook.com',
+            'Elaros') // Your Outlook email address and optional display name
+        ..recipients
+            .add(results['userEmail'] ?? '') // Recipient's email address
         ..subject = 'Test Results'
         ..text = 'Please find the attached test results PDF.'
         ..attachments.add(FileAttachment(tempFile));
@@ -134,8 +233,7 @@ class _C19ExportState extends State<C19Export> {
       ),
       body: FutureBuilder(
         future: Future.wait([testResults, userData]),
-        builder: (context, AsyncSnapshot
-<List<dynamic>> snapshot) {
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else {
@@ -210,6 +308,12 @@ class _C19ExportState extends State<C19Export> {
                     ElevatedButton(
                       onPressed: () async {
                         await generateAndSendPdf(user, results);
+                        // Show SnackBar when the email is sent successfully
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Email sent!'),
+                          ),
+                        );
                       },
                       child: Text('Export PDF'),
                     ),
@@ -267,7 +371,7 @@ class Result extends StatelessWidget {
           ),
         ),
         Text(
-          '-',
+          '-  ',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Expanded(

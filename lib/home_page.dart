@@ -13,8 +13,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() =>
-      _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State {
@@ -24,7 +23,7 @@ class _HomePageState extends State {
     const Center(
       child: HomeTab(),
     ),
-     Center(
+    Center(
       child: FindSupportPage(),
     ),
     const Center(
@@ -40,7 +39,8 @@ class _HomePageState extends State {
 
   Future<void> _logOut() async {
     await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   _changeTab(int index) {
