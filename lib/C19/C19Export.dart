@@ -142,8 +142,8 @@ class _C19ExportState extends State<C19Export> {
                         fontWeight: pdfWidgets.FontWeight.bold)),
                 pdfWidgets.Text('Name: ${user['name'] ?? 'N/A'}'),
                 pdfWidgets.Text('Email: ${results['userEmail'] ?? 'N/A'}'),
-                pdfWidgets.Text(
-                    'Occupation: ${results['occupation'] ?? 'N/A'}'),
+                pdfWidgets.Text('Occupation: ${results['occupation'] ?? 'N/A'}'),
+                pdfWidgets.Text( 'Test Taken:  ${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(results['dateTime'].seconds * 1000))}'),
                 pdfWidgets.Divider(), // Add a line separator
                 pdfWidgets.SizedBox(
                     height:
@@ -256,6 +256,7 @@ class _C19ExportState extends State<C19Export> {
                     Text('Name: ${user['name'] ?? 'N/A'}'),
                     Text('Email: ${results['userEmail'] ?? 'N/A'}'),
                     Text('Occupation: ${results['occupation'] ?? 'N/A'}'),
+                    Text( 'Test taken:  ${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(results['dateTime'].seconds * 1000))}'),
                     Divider(),
                     // Display test results
                     Text('Test Results',
