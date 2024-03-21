@@ -41,31 +41,62 @@ class _C19Page3State extends State<C19Page3> {
                     ),
                   ),
                   SizedBox(height: 10.0),
-                  _buildSymptomCheckbox('Fever', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Skin rash/ discolouration of skin', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('New allergy such as medication, food etc', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Hair loss', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Skin sensation (numbness/tingling/itching/nerve pain)', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Dry eyes/ redness of eyes', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Swelling of feet/ swelling of hands', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Easy bruising/ bleeding', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Visual changes', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Difficulty swallowing solids', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Difficulty swallowing liquids', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Balance problems or falls', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Weakness/movement problems/coordination problems', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Tinnitus', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Nausea', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Dry mouth/mouth ulcers', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Acid Reflux/heartburn', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Change in appetite', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Unintentional weight loss', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Unintentional weight gain', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Bladder frequency, urgency or incontinence', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Constipation, diarrhoea or bowel incontinence', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Change in menstrual cycles or flow', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Waking up at night gasping for air (also called sleep apnea)', widget.userResponses.selectedSymptoms),
-                  _buildSymptomCheckbox('Thoughts about harming yourself', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Fever', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Skin Rash/Discolouration of Skin',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'New Allergy such as Medication,\nFood etc',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Hair loss', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Skin Sensation \n(Numbness, Tingling\nItching, Nerve Pain)',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Dry Eyes/Redness of eyes',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Swelling of Feet/Swelling of Hands',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Easy Bruising/Bleeding',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Visual Changes', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Difficulty Swallowing Solids',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Difficulty Swallowing Liquids',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Balance Problems or Falls',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Weakness/Movement Problems/\nCoordination Problems',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Tinnitus', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Nausea', widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Dry Mouth/Mouth Ulcers',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Acid Reflux/Heartburn',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Change in Appetite',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Unintentional Weight Loss',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Unintentional Weight Gain',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Bladder Frequency, Urgency \nor Incontinence',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Constipation, Diarrhoea \nor Bowel Incontinence',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Change in Menstrual Cycles or Flow',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox(
+                      'Waking up at Night Gasping for Air \n(also called Sleep Apnea)',
+                      widget.userResponses.selectedSymptoms),
+                  _buildSymptomCheckbox('Thoughts about Harming Yourself',
+                      widget.userResponses.selectedSymptoms),
                 ],
               ),
             ),
@@ -77,7 +108,9 @@ class _C19Page3State extends State<C19Page3> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => C19Page4(userResponses: widget.userResponses)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              C19Page4(userResponses: widget.userResponses)),
                     );
                   },
                   child: Text('Next'),
@@ -112,7 +145,8 @@ class _C19Page3State extends State<C19Page3> {
 
   // Method to save user symptoms to Firestore via the user responses object
   void saveSymptomsToUser() {
-    widget.userResponses.selectedSymptoms = widget.userResponses.selectedSymptoms; // Copy selected symptoms
+    widget.userResponses.selectedSymptoms =
+        widget.userResponses.selectedSymptoms; // Copy selected symptoms
     widget.userResponses.saveResponsesToFirestore(context); // Save responses
   }
 }

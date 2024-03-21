@@ -30,7 +30,7 @@ class _C19ScreenState extends State<C19Screen> {
               ],
             ),
             _buildQuestionContainer(
-              'Cough / throat sensitivity / voice change',
+              'Cough / Throat Sensitivity / Voice Change',
               [
                 _buildThroatSensitivityQuestion(),
               ],
@@ -44,7 +44,9 @@ class _C19ScreenState extends State<C19Screen> {
                     // Navigate to the next page and pass userResponses object
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => C19Page2(userResponses: userResponses)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              C19Page2(userResponses: userResponses)),
                     );
                   },
                   child: Text('Next'),
@@ -85,7 +87,8 @@ class _C19ScreenState extends State<C19Screen> {
     );
   }
 
-  Widget _buildSubQuestion(String title, double value, Function(double) onChanged) {
+  Widget _buildSubQuestion(
+      String title, double value, Function(double) onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -106,22 +109,27 @@ class _C19ScreenState extends State<C19Screen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('At rest', userResponses.breathlessnessAtRest, (value) {
+        _buildSubQuestion('At Rest', userResponses.breathlessnessAtRest,
+            (value) {
           setState(() {
             userResponses.breathlessnessAtRest = value;
           });
         }),
-        _buildSubQuestion('Changing position', userResponses.breathlessnessChangingPosition, (value) {
+        _buildSubQuestion(
+            'Changing Position', userResponses.breathlessnessChangingPosition,
+            (value) {
           setState(() {
             userResponses.breathlessnessChangingPosition = value;
           });
         }),
-        _buildSubQuestion('On dressing', userResponses.breathlessnessOnDressing, (value) {
+        _buildSubQuestion('On Dressing', userResponses.breathlessnessOnDressing,
+            (value) {
           setState(() {
             userResponses.breathlessnessOnDressing = value;
           });
         }),
-        _buildSubQuestion('Walking up stairs', userResponses.breathlessnessWalkingUpStairs, (value) {
+        _buildSubQuestion('Walking up the Stairs',
+            userResponses.breathlessnessWalkingUpStairs, (value) {
           setState(() {
             userResponses.breathlessnessWalkingUpStairs = value;
           });
@@ -134,22 +142,24 @@ class _C19ScreenState extends State<C19Screen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('Throat sensitivity', userResponses.throatSensitivity, (value) {
+        _buildSubQuestion('Throat Sensitivity', userResponses.throatSensitivity,
+            (value) {
           setState(() {
             userResponses.throatSensitivity = value;
           });
         }),
-        _buildSubQuestion('Change of voice', userResponses.changeOfVoice, (value) {
+        _buildSubQuestion('Change of Voice', userResponses.changeOfVoice,
+            (value) {
           setState(() {
             userResponses.changeOfVoice = value;
           });
         }),
-        _buildSubQuestion('Altered smell', userResponses.alteredSmell, (value) {
+        _buildSubQuestion('Altered Smell', userResponses.alteredSmell, (value) {
           setState(() {
             userResponses.alteredSmell = value;
           });
         }),
-        _buildSubQuestion('Altered taste', userResponses.alteredTaste, (value) {
+        _buildSubQuestion('Altered Taste', userResponses.alteredTaste, (value) {
           setState(() {
             userResponses.alteredTaste = value;
           });

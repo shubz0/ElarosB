@@ -310,7 +310,12 @@ class _C19ExportState extends State<C19Export> {
                         // Show SnackBar when the email is sent successfully
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Email sent!'),
+                            content: Text(
+                              'Email Sent!',
+                              textAlign: TextAlign.center,
+                            ),
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 3),
                           ),
                         );
                       },

@@ -80,7 +80,9 @@ class C19UserResponses {
 
     // Display a message indicating successful data submission
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('User responses saved to Firestore.'),
+      content: Text('Assessment Saved Successfully'),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 3),
     ));
   }
 }

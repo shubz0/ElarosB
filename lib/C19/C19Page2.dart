@@ -24,7 +24,7 @@ class _C19Page2State extends State<C19Page2> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildQuestionContainer(
-              'Pain / discomfort',
+              'Pain / Discomfort',
               [
                 _buildPainDiscomfortQuestion(),
               ],
@@ -43,7 +43,9 @@ class _C19Page2State extends State<C19Page2> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => C19Page3(userResponses: widget.userResponses)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              C19Page3(userResponses: widget.userResponses)),
                     );
                   },
                   child: Text('Next'),
@@ -84,7 +86,8 @@ class _C19Page2State extends State<C19Page2> {
     );
   }
 
-  Widget _buildSubQuestion(String title, double value, Function(double) onChanged) {
+  Widget _buildSubQuestion(
+      String title, double value, Function(double) onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -105,22 +108,26 @@ class _C19Page2State extends State<C19Page2> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('Fatigue levels in your usual activities', widget.userResponses.fatigueLevels, (value) {
+        _buildSubQuestion('Fatigue Levels in Your Usual Activities',
+            widget.userResponses.fatigueLevels, (value) {
           setState(() {
             widget.userResponses.fatigueLevels = value;
           });
         }),
-        _buildSubQuestion('Chest pain', widget.userResponses.chestPain, (value) {
+        _buildSubQuestion('Chest Pain', widget.userResponses.chestPain,
+            (value) {
           setState(() {
             widget.userResponses.chestPain = value;
           });
         }),
-        _buildSubQuestion('Joint pain', widget.userResponses.jointPain, (value) {
+        _buildSubQuestion('Joint Pain', widget.userResponses.jointPain,
+            (value) {
           setState(() {
             widget.userResponses.jointPain = value;
           });
         }),
-        _buildSubQuestion('Muscle pain', widget.userResponses.musclePain, (value) {
+        _buildSubQuestion('Muscle Pain', widget.userResponses.musclePain,
+            (value) {
           setState(() {
             widget.userResponses.musclePain = value;
           });
@@ -130,7 +137,8 @@ class _C19Page2State extends State<C19Page2> {
             widget.userResponses.headache = value;
           });
         }),
-        _buildSubQuestion('Abdominal pain', widget.userResponses.abdominalPain, (value) {
+        _buildSubQuestion('Abdominal Pain', widget.userResponses.abdominalPain,
+            (value) {
           setState(() {
             widget.userResponses.abdominalPain = value;
           });
@@ -143,32 +151,39 @@ class _C19Page2State extends State<C19Page2> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubQuestion('Difficulty with communication', widget.userResponses.communicationDifficulty, (value) {
+        _buildSubQuestion('Difficulty with Communication',
+            widget.userResponses.communicationDifficulty, (value) {
           setState(() {
             widget.userResponses.communicationDifficulty = value;
           });
         }),
-        _buildSubQuestion('Walking or moving around', widget.userResponses.walkingMovingAroundDifficulty, (value) {
+        _buildSubQuestion('Walking or Moving Around',
+            widget.userResponses.walkingMovingAroundDifficulty, (value) {
           setState(() {
             widget.userResponses.walkingMovingAroundDifficulty = value;
           });
         }),
-        _buildSubQuestion('Personal Care', widget.userResponses.personalCareDifficulty, (value) {
+        _buildSubQuestion(
+            'Personal Care', widget.userResponses.personalCareDifficulty,
+            (value) {
           setState(() {
             widget.userResponses.personalCareDifficulty = value;
           });
         }),
-        _buildSubQuestion('Difficulties with personal tasks', widget.userResponses.personalTasksDifficulty, (value) {
+        _buildSubQuestion('Difficulties with Personal Tasks',
+            widget.userResponses.personalTasksDifficulty, (value) {
           setState(() {
             widget.userResponses.personalTasksDifficulty = value;
           });
         }),
-        _buildSubQuestion('Difficulty doing wider activities', widget.userResponses.widerActivitiesDifficulty, (value) {
+        _buildSubQuestion('Difficulty Doing Wider Activities',
+            widget.userResponses.widerActivitiesDifficulty, (value) {
           setState(() {
             widget.userResponses.widerActivitiesDifficulty = value;
           });
         }),
-        _buildSubQuestion('Problems with socialising/interacting with friends', widget.userResponses.socializingDifficulty, (value) {
+        _buildSubQuestion('Problems with Socialising/Interacting with Friends',
+            widget.userResponses.socializingDifficulty, (value) {
           setState(() {
             widget.userResponses.socializingDifficulty = value;
           });
