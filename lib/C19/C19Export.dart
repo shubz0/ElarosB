@@ -212,7 +212,12 @@ class _C19ExportState extends State<C19Export> {
         ..recipients
             .add(results['userEmail'] ?? '') // Recipient's email address
         ..subject = 'Test Results'
-        ..text = 'Please find the attached test results PDF.'
+        ..text = 'Dear ${user['name'] ?? ''},\n\n'
+      'Thank you for participating in our recent test. '
+      'Attached, please find your test results in PDF format.\n\n'
+      'If you have any questions or concerns, feel free to reach out to us.\n\n'
+      'Best regards,\n'
+      'Elaros Team'
         ..attachments.add(FileAttachment(tempFile));
 
       // Send the email
