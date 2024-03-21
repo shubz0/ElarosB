@@ -1,9 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:elaros/C19/C19Export.dart';
 import 'package:elaros/C19/C19TestResults.dart';
-import 'package:flutter/material.dart';
 import 'package:elaros/C19/C19.dart';
 
-// Colors
 Color blackPrimary = Color(0xff212131);
 Color black = Color(0xff09050D);
 Color grey = Color.fromARGB(255, 183, 183, 185);
@@ -17,71 +16,17 @@ Color darkishBlue = Color.fromARGB(255, 66, 71, 105);
 Color blue = Color.fromARGB(255, 112, 119, 161);
 Color lightorange = Color.fromARGB(255, 246, 178, 122);
 
-// Button Style
 final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
-  minimumSize: Size(327, 100),
-  backgroundColor: white,
+  minimumSize: Size(double.infinity, 80),
+  backgroundColor: Color.fromARGB(255, 0, 169, 165), // Adjusted color to match the teal theme
   elevation: 4,
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(25)),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30),
   ),
 );
 
-class ReusableButton extends StatelessWidget {
-  const ReusableButton({
-    Key? key,
-    required this.onTap,
-    required this.imageUrl,
-    required this.title,
-  }) : super(key: key);
-
-  final void Function() onTap;
-  final String imageUrl;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Stack(
-          children: [
-            Container(
-              width: 200,
-              height: 120,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(imageUrl), fit: BoxFit.cover),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.black
-                    .withOpacity(0.5), // Adjust background color as needed
-              ),
-              width: 200,
-              height: 120,
-              alignment: Alignment.center,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class MyHealthPage extends StatelessWidget {
-  const MyHealthPage({super.key});
+  const MyHealthPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +46,6 @@ class MyHealthPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Heading Section
           Container(
             padding: EdgeInsets.all(25.0),
             decoration: BoxDecoration(
@@ -138,49 +82,61 @@ class MyHealthPage extends StatelessWidget {
           ),
           SizedBox(height: 20.0),
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              padding: EdgeInsets.all(20.0),
-              children: [
-                _buildTestButton(context, 'C19 Test',
-                    'assets/images/C19-YRS-logo-500px-PNG.png', () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => C19Screen()));
-                }),
-                _buildTestButton(
-                    context, 'Test Results', 'assets/images/export.png', () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => C19TestResults()));
-                }),
-                _buildTestButton(context, 'Export', 'assets/images/results.png',
-                    () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => C19Export()));
-                }),
-                _buildTestButton(
-                    context, 'Button 1', 'assets/images/results.png', () {
-                  // Button 4 functionality
-                }),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ElevatedButton.icon(
+                    style: buttonPrimary,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => C19Screen()));
+                    },
+                    icon: Icon(Icons.local_hospital, color: white,),
+                    label: Text(
+                      'C19 Test',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  ElevatedButton.icon(
+                    style: buttonPrimary,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => C19TestResults()));
+                    },
+                    icon: Icon(Icons.insert_chart_outlined, color: white,),
+                    label: Text(
+                      'Test Results',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  ElevatedButton.icon(
+                    style: buttonPrimary,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => C19Export()));
+                    },
+                    icon: Icon(Icons.print, color: white,),
+                    label: Text(
+                      'Export',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildTestButton(
-    BuildContext context,
-    String text,
-    String imagePath,
-    Function() onPressed,
-  ) {
-    return ReusableButton(
-      onTap: onPressed,
-      imageUrl: imagePath,
-      title: text,
     );
   }
 }

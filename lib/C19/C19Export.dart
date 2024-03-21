@@ -208,8 +208,7 @@ class _C19ExportState extends State<C19Export> {
           ignoreBadCertificate: true);
 
       final message = Message()
-        ..from = Address('Elarosteamb@outlook.com',
-            'Elaros') // Your Outlook email address and optional display name
+        ..from = Address('Elarosteamb@outlook.com', 'Elaros') // Your Outlook email address and optional display name
         ..recipients
             .add(results['userEmail'] ?? '') // Recipient's email address
         ..subject = 'Test Results'
