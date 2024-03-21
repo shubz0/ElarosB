@@ -44,7 +44,7 @@ class _C19Page4State extends State<C19Page4> {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    'How good or bad was your health in the past 7 days?',
+                    'How Good or Bad was Your Health in the Past 7 Days?',
                   ),
                   SizedBox(height: 10.0),
                   Slider(
@@ -118,17 +118,17 @@ class _C19Page4State extends State<C19Page4> {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    'Has your COVID-19 illness affected your work?',
+                    'Has Your COVID-19 Illness Affected Your Work?',
                   ),
-                  _buildAffectedWorkCheckbox('No change'),
-                  _buildAffectedWorkCheckbox('On reduced working hours'),
-                  _buildAffectedWorkCheckbox('On sickness leave'),
+                  _buildAffectedWorkCheckbox('No Change'),
+                  _buildAffectedWorkCheckbox('On Reduced Working Hours'),
+                  _buildAffectedWorkCheckbox('On Sickness Leave'),
                   _buildAffectedWorkCheckbox(
-                      'Changes made to role/working arrangements'),
-                  _buildAffectedWorkCheckbox('Had to retire/change job'),
-                  _buildAffectedWorkCheckbox('Lost job'),
+                      'Changes Made to Role/\nWorking Arrangements'),
+                  _buildAffectedWorkCheckbox('Had to Retire/Change Job'),
+                  _buildAffectedWorkCheckbox('Lost Job'),
                   SizedBox(height: 10.0),
-                  Text('Any other comments/concerns'),
+                  Text('Any Other Comments/Concerns'),
                   SizedBox(height: 5.0),
                   TextField(
                     onChanged: (value) {
@@ -137,7 +137,7 @@ class _C19Page4State extends State<C19Page4> {
                       });
                     },
                     decoration: InputDecoration(
-                      hintText: 'Enter any other comments/concerns',
+                      hintText: 'Additional Comments/Concerns',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -155,9 +155,7 @@ class _C19Page4State extends State<C19Page4> {
                     // Navigate back to the home page
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage()), 
+                      MaterialPageRoute(builder: (context) => HomePage()),
                       (Route<dynamic> route) =>
                           false, // Remove all routes below the home page
                     );
