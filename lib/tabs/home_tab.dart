@@ -258,7 +258,14 @@ class _HomeTabState extends State<HomeTab> {
                 height: 20,
               ),
               const SizedBox(
-                height: 20,
+                height: 50,
+                child: Text(
+                  'Update Your Blood Type & Weight Above by Pressing the Boxes',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               ),
               Align(
                 alignment: Alignment.centerLeft,

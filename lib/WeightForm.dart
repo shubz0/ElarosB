@@ -2,6 +2,7 @@ import 'package:elaros/home_page.dart';
 import 'package:elaros/models/weightModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WeightForm extends StatefulWidget {
   const WeightForm({Key? key}) : super(key: key);
@@ -64,6 +65,10 @@ class _WeightFormState extends State<WeightForm> {
                 TextFormField(
                   obscureText: false,
                   controller: weightController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please Enter Weight in Kg';
