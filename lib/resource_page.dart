@@ -22,9 +22,6 @@ class _ResourcesPageState extends State<ResourcePage> { // Add the type for Stat
       child: HomeTab(),
     ),
     const Center(
-      child: SupportTab(),
-    ),
-    const Center(
       child: HealthTab(),
     ),
     const ResourcesTab(), // Use ResourcesTab directly
