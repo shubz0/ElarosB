@@ -1,7 +1,22 @@
-//test1
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart'; // Import TableCalendar package
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+class Event {
+  final String title;
+  final String? description;
+  final DateTime date;
+  final String id;
+
+  Event({
+    required this.title,
+    this.description,
+    required this.date,
+    required this.id,
+  });
+}
 
 class StatsPage extends StatefulWidget {
   @override
@@ -9,8 +24,8 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  late Map<DateTime, List<dynamic>> _events;
-  late List<dynamic> _selectedEvents;
+  late Map<DateTime, List<Event>> _events = {};
+  late List<Event> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -22,13 +37,12 @@ class _StatsPageState extends State<StatsPage> {
   void initState() {
     super.initState();
     _fetchUserCount();
-    _initializeEvents(); // Initialize events for the calendar
-    _fetchLastCompletionDate(); // Fetch last completion date from Firestore
-    _calculateDaysUntilNextAssessment(); // Calculate days until next assessment
+    _initializeEvents();
+    _fetchLastCompletionDate();
+    _calculateDaysUntilNextAssessment();
   }
 
-  // Fetch last completion date from Firestore
-  void _fetchLastCompletionDate() async {
+  Future<void> _fetchLastCompletionDate() async {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('assessments')
@@ -36,9 +50,8 @@ class _StatsPageState extends State<StatsPage> {
           .limit(1)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        // Get the completion date from the first document
         DateTime completionDate = (querySnapshot.docs.first.data()
-                as Map<String, dynamic>)['completionDate']
+            as Map<String, dynamic>)['completionDate']
             .toDate();
         setState(() {
           _lastCompletionDate = completionDate;
@@ -49,10 +62,8 @@ class _StatsPageState extends State<StatsPage> {
     }
   }
 
-  // Calculate days until next assessment
   void _calculateDaysUntilNextAssessment() {
     if (_lastCompletionDate != null) {
-      // Calculate the difference in days between today and the last completion date
       Duration difference = _lastCompletionDate!.difference(DateTime.now());
       setState(() {
         _daysUntilNextAssessment = difference.inDays;
@@ -63,7 +74,7 @@ class _StatsPageState extends State<StatsPage> {
   Future<void> _fetchUserCount() async {
     try {
       QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('users').get();
+      await FirebaseFirestore.instance.collection('users').get();
       setState(() {
         querySnapshot.docs.forEach((doc) {
           userCount = querySnapshot.docs.isNotEmpty ? userCount + 1 : userCount;
@@ -75,38 +86,55 @@ class _StatsPageState extends State<StatsPage> {
     }
   }
 
-  // Initialize events for the calendar
-  void _initializeEvents() {
-    // Example: Assign some events to specific dates
-    _events = {
-      DateTime.now().subtract(Duration(days: 2)): ['Event A'],
-      DateTime.now().subtract(Duration(days: 1)): ['Event B'],
-      DateTime.now(): ['Event C', 'Event D'],
-      DateTime.now().add(Duration(days: 1)): ['Event E'],
-    };
-    // Set initial selected events to today's events
-    _selectedEvents = _events[DateTime.now()] ?? [];
+  Future<void> _initializeEvents() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      String userEmail = user.email ?? '';
+
+      final eventsRef = FirebaseFirestore.instance.collection('C19-responses');
+      final snapshot = await eventsRef.where('userEmail', isEqualTo: userEmail).get();
+
+      final events = <DateTime, List<Event>>{};
+
+      for (final doc in snapshot.docs) {
+        final completionDate = (doc.data() as Map<String, dynamic>)['completionDate'].toDate();
+        final event = Event(
+          title: 'Assessment Completed',
+          description: 'Assessment completed on ${DateFormat('yyyy-MM-dd').format(completionDate)}',
+          date: completionDate,
+          id: doc.id,
+        );
+
+        final date = DateTime.utc(event.date.year, event.date.month, event.date.day);
+
+        if (events[date] == null) {
+          events[date] = [];
+        }
+        events[date]!.add(event);
+      }
+
+      setState(() {
+        _events = events;
+      });
+}
   }
 
   Widget _buildCalendar() {
     return TableCalendar(
-      // Configuration for the calendar
       firstDay: DateTime.utc(2023, 1, 1),
       lastDay: DateTime.utc(2030, 12, 31),
       focusedDay: _focusedDay,
       calendarFormat: _calendarFormat,
       selectedDayPredicate: (day) {
-        // Use _selectedDay if it is set, otherwise use _focusedDay
         return isSameDay(_selectedDay ?? _focusedDay, day);
       },
       eventLoader: (day) {
-        // Load events for the specified day from _events
         return _events[day] ?? [];
       },
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
           _selectedDay = selectedDay;
-          _focusedDay = focusedDay; // update _focusedDay as well
+          _focusedDay = focusedDay;
           _selectedEvents = _events[selectedDay] ?? [];
         });
       },
@@ -116,38 +144,29 @@ class _StatsPageState extends State<StatsPage> {
         });
       },
       onPageChanged: (focusedDay) {
-        _focusedDay = focusedDay; // update _focusedDay
+        _focusedDay = focusedDay;
       },
       calendarBuilders: CalendarBuilders(
-        // Customize day cell builder
-        defaultBuilder: (context, day, focusedDay) {
-          return _buildDayCell(day);
+        markerBuilder: (context, date, events) {
+          final eventCount = events.length;
+
+          if (eventCount > 0) {
+            return Positioned(
+              bottom: 1,
+              right: 1,
+              child: Container(
+                width: 6.0,
+                height: 6.0,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            );
+          }
+
+          return const SizedBox.shrink();
         },
-      ),
-    );
-  }
-
-  Widget _buildDayCell(DateTime day) {
-    final isCompleted = _events.containsKey(day);
-    final isReminder = _lastCompletionDate != null &&
-        day.difference(_lastCompletionDate!) == Duration(days: 14);
-    final isDue = _daysUntilNextAssessment > 0 &&
-        day == DateTime.now().add(Duration(days: _daysUntilNextAssessment));
-
-    return Container(
-      margin: EdgeInsets.all(4),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: isCompleted
-            ? Colors.white
-            : (isReminder ? Colors.yellow : (isDue ? Colors.red : null)),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        day.day.toString(),
-        style: TextStyle(
-          color: isCompleted ? Colors.black : Colors.white,
-        ),
       ),
     );
   }
@@ -167,8 +186,7 @@ class _StatsPageState extends State<StatsPage> {
                   end: Alignment.bottomCenter,
                   colors: [
                     Color.fromARGB(255, 11, 83, 81),
-                    Color.fromARGB(
-                        255, 0, 169, 165), // your activity container color
+                    Color.fromARGB(255, 0, 169, 165),
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -188,11 +206,10 @@ class _StatsPageState extends State<StatsPage> {
                     ),
                   ),
                   SizedBox(height: 20.0),
-                  _buildCalendar(), // Display the calendar
+                  _buildCalendar(),
                   SizedBox(height: 20.0),
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
                     margin: EdgeInsets.symmetric(vertical: 10.0),
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -217,9 +234,8 @@ class _StatsPageState extends State<StatsPage> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(
-                        255, 11, 83, 81), //colors for total users container
-                    Color.fromARGB(255, 0, 169, 165)
+Color.fromARGB(255, 11, 83, 81),
+                    Color.fromARGB(255, 0, 169, 165),
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -239,7 +255,7 @@ class _StatsPageState extends State<StatsPage> {
                     ),
                   ),
                   SizedBox(height: 20.0),
-                  _buildUsersBoxes(userCount), // Pass user count
+                  _buildUsersBoxes(userCount),
                   SizedBox(height: 20.0),
                   SizedBox(height: 10.0),
                   Text(
@@ -282,13 +298,13 @@ class _StatsPageState extends State<StatsPage> {
         ),
         boxShadow: isSelected
             ? [
-                BoxShadow(
-                  color: Colors.blue.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ]
+          BoxShadow(
+            color: Colors.blue.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ]
             : [],
       ),
       child: Column(
