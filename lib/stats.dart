@@ -43,28 +43,35 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   Future<void> _fetchLastCompletionDate() async {
-    try {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('assessments')
-          .orderBy('completionDate', descending: true)
+          .collection('C19-responses')
+          .where('userEmail', isEqualTo: user.email) // Assuming the field name for user email is 'userEmail'
+          .orderBy('dateTime', descending: true)
           .limit(1)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         DateTime completionDate = (querySnapshot.docs.first.data()
-            as Map<String, dynamic>)['completionDate']
+                as Map<String, dynamic>)['dateTime']
             .toDate();
         setState(() {
           _lastCompletionDate = completionDate;
         });
       }
-    } catch (error) {
-      print('Error fetching last completion date: $error');
     }
+  } catch (error) {
+    print('Error fetching last completion date: $error');
   }
+}
+
+
 
   void _calculateDaysUntilNextAssessment() {
     if (_lastCompletionDate != null) {
-      Duration difference = _lastCompletionDate!.difference(DateTime.now());
+      final nextAssessmentDate = _lastCompletionDate!.add(Duration(days: 14));
+      final difference = nextAssessmentDate.difference(DateTime.now());
       setState(() {
         _daysUntilNextAssessment = difference.inDays;
       });
@@ -74,7 +81,7 @@ class _StatsPageState extends State<StatsPage> {
   Future<void> _fetchUserCount() async {
     try {
       QuerySnapshot querySnapshot =
-      await FirebaseFirestore.instance.collection('users').get();
+          await FirebaseFirestore.instance.collection('users').get();
       setState(() {
         querySnapshot.docs.forEach((doc) {
           userCount = querySnapshot.docs.isNotEmpty ? userCount + 1 : userCount;
@@ -92,20 +99,24 @@ class _StatsPageState extends State<StatsPage> {
       String userEmail = user.email ?? '';
 
       final eventsRef = FirebaseFirestore.instance.collection('C19-responses');
-      final snapshot = await eventsRef.where('userEmail', isEqualTo: userEmail).get();
+      final snapshot =
+          await eventsRef.where('userEmail', isEqualTo: userEmail).get();
 
       final events = <DateTime, List<Event>>{};
 
       for (final doc in snapshot.docs) {
-        final completionDate = (doc.data() as Map<String, dynamic>)['completionDate'].toDate();
+        final completionDate =
+            (doc.data() as Map<String, dynamic>)['completionDate'].toDate();
         final event = Event(
           title: 'Assessment Completed',
-          description: 'Assessment completed on ${DateFormat('yyyy-MM-dd').format(completionDate)}',
+          description:
+              'Assessment completed on ${DateFormat('yyyy-MM-dd').format(completionDate)}',
           date: completionDate,
           id: doc.id,
         );
 
-        final date = DateTime.utc(event.date.year, event.date.month, event.date.day);
+        final date =
+            DateTime.utc(event.date.year, event.date.month, event.date.day);
 
         if (events[date] == null) {
           events[date] = [];
@@ -116,59 +127,138 @@ class _StatsPageState extends State<StatsPage> {
       setState(() {
         _events = events;
       });
-}
+    }
   }
 
   Widget _buildCalendar() {
-    return TableCalendar(
-      firstDay: DateTime.utc(2023, 1, 1),
-      lastDay: DateTime.utc(2030, 12, 31),
-      focusedDay: _focusedDay,
-      calendarFormat: _calendarFormat,
-      selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay ?? _focusedDay, day);
-      },
-      eventLoader: (day) {
-        return _events[day] ?? [];
-      },
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-          _focusedDay = focusedDay;
-          _selectedEvents = _events[selectedDay] ?? [];
-        });
-      },
-      onFormatChanged: (format) {
-        setState(() {
-          _calendarFormat = format;
-        });
-      },
-      onPageChanged: (focusedDay) {
+  return TableCalendar(
+    firstDay: DateTime.utc(2023, 1, 1),
+    lastDay: DateTime.utc(2030, 12, 31),
+    focusedDay: _focusedDay,
+    calendarFormat: _calendarFormat,
+    selectedDayPredicate: (day) {
+      return isSameDay(_selectedDay ?? _focusedDay, day);
+    },
+    eventLoader: (day) {
+      return _events[day] ?? [];
+    },
+    onDaySelected: (selectedDay, focusedDay) {
+      setState(() {
+        _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-      },
-      calendarBuilders: CalendarBuilders(
-        markerBuilder: (context, date, events) {
-          final eventCount = events.length;
+        _selectedEvents = _events[selectedDay] ?? [];
+      });
+    },
+    onFormatChanged: (format) {
+      setState(() {
+        _calendarFormat = format;
+      });
+    },
+    onPageChanged: (focusedDay) {
+      _focusedDay = focusedDay;
+    },
+    calendarBuilders: CalendarBuilders(
+      markerBuilder: (context, date, events) {
+        final eventCount = events.length;
 
-          if (eventCount > 0) {
-            return Positioned(
-              bottom: 1,
-              right: 1,
-              child: Container(
-                width: 6.0,
-                height: 6.0,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
-                ),
+        if (eventCount > 0) {
+          return Positioned(
+            bottom: 1,
+            right: 1,
+            child: Container(
+              width: 6.0,
+              height: 6.0,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle,
               ),
-            );
-          }
+            ),
+          );
+        }
 
-          return const SizedBox.shrink();
-        },
-      ),
-    );
+        final completionDateWithoutTime = _lastCompletionDate != null
+            ? DateTime(
+                _lastCompletionDate!.year,
+                _lastCompletionDate!.month,
+                _lastCompletionDate!.day,
+              )
+            : null;
+
+        print('Date: $date');
+        print('Completion Date Without Time: $completionDateWithoutTime');
+
+        final isMostRecentTestDay = completionDateWithoutTime != null &&
+            isSameDay(date, completionDateWithoutTime);
+
+        final isNextAssessmentDay = completionDateWithoutTime != null &&
+            isSameDay(
+                date, completionDateWithoutTime.add(Duration(days: 14)));
+
+        print('Is Most Recent Test Day: $isMostRecentTestDay');
+        print('Is Next Assessment Day: $isNextAssessmentDay');
+
+        if (isMostRecentTestDay) {
+          return Container(
+            margin: EdgeInsets.all(4.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+            child: Text(
+              date.day.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          );
+        } else if (isNextAssessmentDay) {
+          return Container(
+            margin: EdgeInsets.all(4.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+            child: Text(
+              date.day.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
+    ),
+  );
+}
+
+
+
+  Widget _buildReminder() {
+    if (_daysUntilNextAssessment <= 0) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        margin: EdgeInsets.symmetric(vertical: 10.0),
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Text(
+          'Remember to take an assessment every 14 days',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0,
+          ),
+        ),
+      );
+    } else {
+      return SizedBox.shrink();
+    }
   }
 
   @override
@@ -208,21 +298,7 @@ class _StatsPageState extends State<StatsPage> {
                   SizedBox(height: 20.0),
                   _buildCalendar(),
                   SizedBox(height: 20.0),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text(
-                      'Remember to take an assessment every 14 days',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
+                  _buildReminder(), // Added reminder widget
                 ],
               ),
             ),
@@ -234,7 +310,7 @@ class _StatsPageState extends State<StatsPage> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-Color.fromARGB(255, 11, 83, 81),
+                    Color.fromARGB(255, 11, 83, 81),
                     Color.fromARGB(255, 0, 169, 165),
                   ],
                 ),
@@ -298,13 +374,13 @@ Color.fromARGB(255, 11, 83, 81),
         ),
         boxShadow: isSelected
             ? [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ]
+                BoxShadow(
+                  color: Colors.blue.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ]
             : [],
       ),
       child: Column(
