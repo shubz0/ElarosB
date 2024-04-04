@@ -99,6 +99,7 @@ class _FindSupportPageState extends State<FindSupportPage> {
                   color: Colors.white,
                 ),
               ),
+              centerTitle: true,
             ),
           ),
         ),
@@ -110,7 +111,7 @@ class _FindSupportPageState extends State<FindSupportPage> {
               end: Alignment.bottomCenter,
               colors: [
                 Color.fromARGB(
-                    255, 144, 194, 231), //background color of the whole page
+                    255, 0, 169, 165), //background color of the whole page
                 Colors.white,
               ],
             ),
@@ -152,14 +153,18 @@ class _FindSupportPageState extends State<FindSupportPage> {
                                 BorderSide(color: Colors.black, width: 2.0),
                           ),
                           helperText: _helperText,
-                          helperStyle: TextStyle(color: Colors.grey),
+                          helperStyle: TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         onChanged: (value) {
                           setState(() {
                             if (value.isNotEmpty &&
                                 RegExp(r'^\d').hasMatch(value)) {
                               _helperText =
-                                  'Postcode Cannot Start with a number';
+                                  'Postcode Cannot Start with a Number';
                             } else if (!postcodeRegExp.hasMatch(value) &&
                                 value.isNotEmpty) {
                               _helperText =

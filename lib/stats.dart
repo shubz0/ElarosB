@@ -43,30 +43,30 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   Future<void> _fetchLastCompletionDate() async {
-  try {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('C19-responses')
-          .where('userEmail', isEqualTo: user.email) // Assuming the field name for user email is 'userEmail'
-          .orderBy('dateTime', descending: true)
-          .limit(1)
-          .get();
-      if (querySnapshot.docs.isNotEmpty) {
-        DateTime completionDate = (querySnapshot.docs.first.data()
-                as Map<String, dynamic>)['dateTime']
-            .toDate();
-        setState(() {
-          _lastCompletionDate = completionDate;
-        });
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('C19-responses')
+            .where('userEmail',
+                isEqualTo: user
+                    .email) // Assuming the field name for user email is 'userEmail'
+            .orderBy('dateTime', descending: true)
+            .limit(1)
+            .get();
+        if (querySnapshot.docs.isNotEmpty) {
+          DateTime completionDate = (querySnapshot.docs.first.data()
+                  as Map<String, dynamic>)['dateTime']
+              .toDate();
+          setState(() {
+            _lastCompletionDate = completionDate;
+          });
+        }
       }
+    } catch (error) {
+      print('Error fetching last completion date: $error');
     }
-  } catch (error) {
-    print('Error fetching last completion date: $error');
   }
-}
-
-
 
   void _calculateDaysUntilNextAssessment() {
     if (_lastCompletionDate != null) {
@@ -131,113 +131,111 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   Widget _buildCalendar() {
-  return TableCalendar(
-    firstDay: DateTime.utc(2023, 1, 1),
-    lastDay: DateTime.utc(2030, 12, 31),
-    focusedDay: _focusedDay,
-    calendarFormat: _calendarFormat,
-    selectedDayPredicate: (day) {
-      return isSameDay(_selectedDay ?? _focusedDay, day);
-    },
-    eventLoader: (day) {
-      return _events[day] ?? [];
-    },
-    onDaySelected: (selectedDay, focusedDay) {
-      setState(() {
-        _selectedDay = selectedDay;
+    return TableCalendar(
+      firstDay: DateTime.utc(2023, 1, 1),
+      lastDay: DateTime.utc(2030, 12, 31),
+      focusedDay: _focusedDay,
+      calendarFormat: _calendarFormat,
+      selectedDayPredicate: (day) {
+        return isSameDay(_selectedDay ?? _focusedDay, day);
+      },
+      eventLoader: (day) {
+        return _events[day] ?? [];
+      },
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          _selectedDay = selectedDay;
+          _focusedDay = focusedDay;
+          _selectedEvents = _events[selectedDay] ?? [];
+        });
+      },
+      onFormatChanged: (format) {
+        setState(() {
+          _calendarFormat = format;
+        });
+      },
+      onPageChanged: (focusedDay) {
         _focusedDay = focusedDay;
-        _selectedEvents = _events[selectedDay] ?? [];
-      });
-    },
-    onFormatChanged: (format) {
-      setState(() {
-        _calendarFormat = format;
-      });
-    },
-    onPageChanged: (focusedDay) {
-      _focusedDay = focusedDay;
-    },
-    calendarBuilders: CalendarBuilders(
-      markerBuilder: (context, date, events) {
-        final eventCount = events.length;
+      },
+      calendarBuilders: CalendarBuilders(
+        markerBuilder: (context, date, events) {
+          final eventCount = events.length;
 
-        if (eventCount > 0) {
-          return Positioned(
-            bottom: 1,
-            right: 1,
-            child: Container(
-              width: 6.0,
-              height: 6.0,
+          if (eventCount > 0) {
+            return Positioned(
+              bottom: 1,
+              right: 1,
+              child: Container(
+                width: 6.0,
+                height: 6.0,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            );
+          }
+
+          final completionDateWithoutTime = _lastCompletionDate != null
+              ? DateTime(
+                  _lastCompletionDate!.year,
+                  _lastCompletionDate!.month,
+                  _lastCompletionDate!.day,
+                )
+              : null;
+
+          print('Date: $date');
+          print('Completion Date Without Time: $completionDateWithoutTime');
+
+          final isMostRecentTestDay = completionDateWithoutTime != null &&
+              isSameDay(date, completionDateWithoutTime);
+
+          final isNextAssessmentDay = completionDateWithoutTime != null &&
+              isSameDay(
+                  date, completionDateWithoutTime.add(Duration(days: 14)));
+
+          print('Is Most Recent Test Day: $isMostRecentTestDay');
+          print('Is Next Assessment Day: $isNextAssessmentDay');
+
+          if (isMostRecentTestDay) {
+            return Container(
+              margin: EdgeInsets.all(4.0),
+              alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Colors.green.withOpacity(0.5),
                 shape: BoxShape.circle,
               ),
-            ),
-          );
-        }
-
-        final completionDateWithoutTime = _lastCompletionDate != null
-            ? DateTime(
-                _lastCompletionDate!.year,
-                _lastCompletionDate!.month,
-                _lastCompletionDate!.day,
-              )
-            : null;
-
-        print('Date: $date');
-        print('Completion Date Without Time: $completionDateWithoutTime');
-
-        final isMostRecentTestDay = completionDateWithoutTime != null &&
-            isSameDay(date, completionDateWithoutTime);
-
-        final isNextAssessmentDay = completionDateWithoutTime != null &&
-            isSameDay(
-                date, completionDateWithoutTime.add(Duration(days: 14)));
-
-        print('Is Most Recent Test Day: $isMostRecentTestDay');
-        print('Is Next Assessment Day: $isNextAssessmentDay');
-
-        if (isMostRecentTestDay) {
-          return Container(
-            margin: EdgeInsets.all(4.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.green.withOpacity(0.5),
-              shape: BoxShape.circle,
-            ),
-            child: Text(
-              date.day.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              child: Text(
+                date.day.toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          );
-        } else if (isNextAssessmentDay) {
-          return Container(
-            margin: EdgeInsets.all(4.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.5),
-              shape: BoxShape.circle,
-            ),
-            child: Text(
-              date.day.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            );
+          } else if (isNextAssessmentDay) {
+            return Container(
+              margin: EdgeInsets.all(4.0),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.5),
+                shape: BoxShape.circle,
               ),
-            ),
-          );
-        }
+              child: Text(
+                date.day.toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }
 
-        return const SizedBox.shrink();
-      },
-    ),
-  );
-}
-
-
+          return const SizedBox.shrink();
+        },
+      ),
+    );
+  }
 
   Widget _buildReminder() {
     if (_daysUntilNextAssessment <= 0) {
