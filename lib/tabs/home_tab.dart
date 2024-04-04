@@ -263,7 +263,8 @@ class _HomeTabState extends State<HomeTab> {
                   'Update Your Blood Type & Weight Above by Pressing the Boxes',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
