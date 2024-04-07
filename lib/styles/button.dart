@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class MyReusableButton extends StatelessWidget {
   const MyReusableButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.imageUrl,
     required this.title,
-  }) : super(key: key);
+  });
 
   final void Function() onTap;
   final String imageUrl;
@@ -31,7 +31,8 @@ class MyReusableButton extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Colors.black.withOpacity(0.5), // Adjust background color as needed
+                color: Colors.black
+                    .withOpacity(0.5), // Adjust background color as needed
               ),
               width: 200,
               height: 120,
