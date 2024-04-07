@@ -1,6 +1,5 @@
-//GITBASHTEST
 import 'package:flutter/material.dart';
-import 'package:elaros/login_page.dart';
+import 'package:elaros/features/authentication/screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
